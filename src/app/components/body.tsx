@@ -2,15 +2,40 @@
 import ListElement from "./listelement";
 import { useState, useEffect } from "react";
 
-export interface Beer {
-  name: string;
-  brewery: string;
-  rating: number;
+export function List(props: { Title: String; API: string }) {
+  const [listElements, setListElements] = useState([]);
+
+  const getListElements = async (API: string) => {
+    try {
+      const response = await fetch(API, { method: "GET" });
+      const drankListResponse = await response.json();
+      setListElements(drankListResponse.items);
+    } catch {
+      //dont throw error
+    }
+  };
+
+  useEffect(() => {
+    getListElements(props.API);
+  }, []);
+
+  return (
+    <div className="flex flex-col">
+      <h1>{props.Title}</h1>
+      <div className="w-96 h-96 flex flex-col border-2 ">
+        {listElements.map((listElement, index) => {
+          const type: string = listElement.collectionName;
+          return <ListElement data={listElement} type={type} key={index} />;
+        })}
+      </div>
+      {/* <button className="w-12 h-12 bg-white" onClick={getUpdatedDranks}>
+          Refresh
+        </button> */}
+    </div>
+  );
 }
 
 export default function Body() {
-  const [drankList, setDrankList] = useState([]);
-
   // const getUpdatedDranks = async () => {
   //   try {
   //     const response = await fetch("/api/getdrank/", { method: "POST" });
@@ -21,38 +46,10 @@ export default function Body() {
   //   }
   // };
 
-  const getDranks = async () => {
-    try {
-      const response = await fetch("/api/getdrank/", { method: "GET" });
-      const drankListResponse = await response.json();
-      setDrankList(drankListResponse.items);
-    } catch {
-      //dont throw error
-    }
-  };
-
-  useEffect(() => {
-    getDranks();
-  }, []);
-
   return (
     <div className="flex flex-row gap-4 justify-center items-center w-full h-full bg-red-500">
-      <div className="flex flex-col">
-        <div className="w-96 h-96 flex flex-col border-2 ">
-          {drankList.map((beer, index) => {
-            const newBeer: Beer = {
-              name: beer.Name,
-              brewery: beer.Brewery,
-              rating: beer.Rating,
-            };
-            return <ListElement beer={newBeer} key={index} />;
-          })}
-        </div>
-        {/* <button className="w-12 h-12 bg-white" onClick={getUpdatedDranks}>
-          Refresh
-        </button> */}
-      </div>
-      <div className="w-72 h-96 flex border-2 "></div>
+      <List Title={"Drank"} API="/api/getdrank/" />
+      <List Title={"Drink"} API="/api/getdrink/" />
     </div>
   );
 }

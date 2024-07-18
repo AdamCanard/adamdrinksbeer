@@ -8,6 +8,7 @@ export class DatabaseClient {
   constructor() {
     // instantiate PocketBase
     this.client = new PocketBase(POCKET_BASE_URL);
+    this.client.autoCancellation(false);
   }
 
   async authAsAdmin() {
@@ -33,7 +34,18 @@ export class DatabaseClient {
     if (!this.client.authStore.isValid) {
       await this.authAsAdmin();
     }
+
     const DrankList = await this.client.collection("Drank").getList(1, 50, {
+      sort: "-created",
+    });
+    return DrankList;
+  }
+
+  async getDrink() {
+    if (!this.client.authStore.isValid) {
+      await this.authAsAdmin();
+    }
+    const DrankList = await this.client.collection("Drink").getList(1, 50, {
       sort: "-created",
     });
     return DrankList;

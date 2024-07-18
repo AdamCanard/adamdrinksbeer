@@ -1,11 +1,19 @@
-import { Beer } from "./body";
-
-export default function ListElement(props: { beer: Beer }) {
+export default function ListElement(props: { data: any; type: string }) {
+  console.log(props.data);
   return (
-    <div className="flex w-full h-12 border-2 justify-between items-center">
-      <div className="p-2">{props.beer.name}</div>
-      <div className="p-2">{props.beer.brewery}</div>
-      <div className="p-2">{props.beer.rating}</div>
-    </div>
+    <>
+      {props.type == "Drank" ? (
+        <div className="flex w-full h-12 border-2 justify-between items-center p-2">
+          <div>{props.data.Name}</div>
+          <div>{props.data.Brewery}</div>
+          <div>{props.data.Rating}</div>
+        </div>
+      ) : (
+        <div className="flex w-full h-12 border-2 justify-between items-center p-2">
+          <div>{props.data.Beer}</div>
+          <div>{props.data.Requested_by}</div>
+        </div>
+      )}
+    </>
   );
 }
