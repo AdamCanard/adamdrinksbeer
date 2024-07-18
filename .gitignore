@@ -35,4 +35,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-pb_data/
+/pocketbase/pb_data/** */
