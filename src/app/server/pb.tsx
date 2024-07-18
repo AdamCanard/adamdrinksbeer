@@ -35,7 +35,7 @@ export class DatabaseClient {
       // sort by newest first
       sort: "-created",
     });
-
+    console.log(DrankList);
     return DrankList;
   }
 }
