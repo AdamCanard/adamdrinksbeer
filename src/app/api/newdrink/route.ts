@@ -3,15 +3,15 @@ import db from "../../server/pb";
 
 export async function POST(req: any, res: any) {
   const formData = await req.formData();
-  const inputName = formData.get("name");
+  const inputBeer = formData.get("beer");
+  const inputRequest = formData.get("requestedBy");
   const inputBrewery = formData.get("brewery");
-  const inputRating = formData.get("rating");
   const data = {
-    Name: inputName,
+    Beer: inputBeer,
     Brewery: inputBrewery,
-    Rating: inputRating,
+    Requested_by: inputRequest,
   };
-  db.addDrank(data);
+  db.addDrink(data);
   return new Response(JSON.stringify({ data: data }), {
     status: 200,
   });

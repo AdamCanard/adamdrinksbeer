@@ -24,9 +24,19 @@ export class DatabaseClient {
     }
   }
 
-  async addDrank(data: { name: string; brewery: string; rating: number }) {
+  async addDrank(data: { Name: string; Brewery: string; Rating: number }) {
     await this.authAsAdmin();
     const result = await this.client.collection("Drank").create(data);
+    console.log(result);
+  }
+
+  async addDrink(data: {
+    Beer: string;
+    Brewery: string;
+    Requested_by: string;
+  }) {
+    await this.authAsAdmin();
+    const result = await this.client.collection("Drink").create(data);
     console.log(result);
   }
 
@@ -34,7 +44,6 @@ export class DatabaseClient {
     if (!this.client.authStore.isValid) {
       await this.authAsAdmin();
     }
-
     const DrankList = await this.client.collection("Drank").getList(1, 50, {
       sort: "-created",
     });
