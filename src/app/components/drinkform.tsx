@@ -17,7 +17,7 @@ export default function DrinkForm() {
         {
           status: 500,
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -30,6 +30,12 @@ export default function DrinkForm() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const reset = () => {
+    for (let obj in inputs) {
+      setInputs((values) => ({ ...values, [obj]: "" }));
+    }
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const formData = new FormData();
@@ -37,9 +43,11 @@ export default function DrinkForm() {
     formData.append("brewery", inputs.brewery);
     formData.append("requestedBy", inputs.requestedBy);
     newDrink(formData);
+    reset();
   };
   return (
     <div>
+      <button onClick={reset}> click me</button>
       <h1>New Drink:</h1>
       <form
         className="flex flex-col gap-2"
@@ -74,7 +82,7 @@ export default function DrinkForm() {
           />
         </label>
 
-        <input type="submit" />
+        <input type="button" value="Submit" />
       </form>
     </div>
   );

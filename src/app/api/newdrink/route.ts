@@ -1,7 +1,7 @@
 "use server";
 import db from "../../server/pb";
 
-export async function POST(req, res) {
+export async function POST(req: any, res: any) {
   const formData = await req.formData();
   const inputBeer = formData.get("beer");
   const inputRequest = formData.get("requestedBy");
