@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function DrinkForm() {
   const [inputs, setInputs] = useState({});
 
-  const newDrank = async (formData: FormData) => {
+  const newDrink = async (formData: FormData) => {
     try {
       const response = await fetch("/api/newdrink/", {
         method: "POST",
@@ -35,7 +35,7 @@ export default function DrinkForm() {
     formData.append("beer", inputs.beer);
     formData.append("brewery", inputs.brewery);
     formData.append("requestedBy", inputs.requestedBy);
-    newDrank(formData);
+    newDrink(formData);
   };
   return (
     <div>

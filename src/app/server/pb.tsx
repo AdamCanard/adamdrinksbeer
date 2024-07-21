@@ -35,6 +35,7 @@ export class DatabaseClient {
     Brewery: string;
     Requested_by: string;
   }) {
+    console.log(data);
     await this.authAsAdmin();
     const result = await this.client.collection("Drink").create(data);
     console.log(result);
