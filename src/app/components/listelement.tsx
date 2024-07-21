@@ -1,7 +1,6 @@
 export default function ListElement(props: { data: any; type: string }) {
   const drinkBeer = () => {};
 
-  console.log(props.data);
   return (
     <>
       {props.type == "Drank" ? (

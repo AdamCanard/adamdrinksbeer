@@ -17,7 +17,7 @@ export default function DrankForm() {
         {
           status: 500,
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );

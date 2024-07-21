@@ -31,6 +31,7 @@ export default function DrinkForm() {
   };
 
   const handleSubmit = (event: any) => {
+    event.preventDefault();
     const formData = new FormData();
     formData.append("beer", inputs.beer);
     formData.append("brewery", inputs.brewery);
