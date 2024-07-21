@@ -5,12 +5,12 @@ import List from "./list";
 
 export default function Body() {
   return (
-    <div className="flex flex-row w-full h-full bg-red-500 gap-2 justify-center items-center">
+    <div className="grid md:flex flex-row w-full h-full gap-2 justify-center items-center">
       <div className="flex flex-col">
         <DrankForm />
         <DrinkForm />
       </div>
-      <div className="flex flex-row gap-4 ">
+      <div className="grid ">
         <List Title={"Drank"} API="/api/getdrank/" />
         <List Title={"Drink"} API="/api/getdrink/" />
       </div>

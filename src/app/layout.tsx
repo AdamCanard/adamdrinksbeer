@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-[100vh] w-full">{children}</body>
+      <body className="min-h-[100vh] bg-red-500 w-full">{children}</body>
     </html>
   );
 }

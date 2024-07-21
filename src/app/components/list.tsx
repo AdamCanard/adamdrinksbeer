@@ -19,9 +19,9 @@ export default function List(props: { Title: String; API: string }) {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col hi">
       <h1>{props.Title}</h1>
-      <div className="w-96 h-96 flex flex-col border-2 ">
+      <div className="w-96 flex flex-col border-2 ">
         {listElements.map((listElement, index) => {
           const type: string = listElement.collectionName;
           return <ListElement data={listElement} type={type} key={index} />;
