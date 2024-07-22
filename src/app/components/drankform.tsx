@@ -16,9 +16,7 @@ export default function DrankForm() {
         JSON.stringify({ error: err.message || err.toString() }),
         {
           status: 500,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: {},
         }
       );
     }
@@ -30,13 +28,21 @@ export default function DrankForm() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const reset = () => {
+    for (let obj in inputs) {
+      setInputs((values) => ({ ...values, [obj]: "" }));
+    }
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    console.log(inputs);
     const formData = new FormData();
     formData.append("name", inputs.name);
     formData.append("brewery", inputs.brewery);
     formData.append("rating", inputs.rating);
     newDrank(formData);
+    reset();
   };
   return (
     <div>

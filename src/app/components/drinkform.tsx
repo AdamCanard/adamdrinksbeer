@@ -16,9 +16,7 @@ export default function DrinkForm() {
         JSON.stringify({ error: err.message || err.toString() }),
         {
           status: 500,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: {},
         }
       );
     }
@@ -36,6 +34,8 @@ export default function DrinkForm() {
     }
   };
 
+  // const refresh = () => {};
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const formData = new FormData();
@@ -44,6 +44,7 @@ export default function DrinkForm() {
     formData.append("requestedBy", inputs.requestedBy);
     newDrink(formData);
     reset();
+    // refresh();
   };
   return (
     <div>
