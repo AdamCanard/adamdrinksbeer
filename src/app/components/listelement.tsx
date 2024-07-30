@@ -1,6 +1,4 @@
 export default function ListElement(props: { data: any; type: string }) {
-  const drinkBeer = () => {};
-
   return (
     <>
       {props.type == "Drank" ? (
@@ -14,11 +12,6 @@ export default function ListElement(props: { data: any; type: string }) {
           <div>{props.data.Beer}</div>
           <div>{props.data.Brewery}</div>
           <div>{props.data.Requested_by}</div>
-          <div>
-            <button onClick={drinkBeer} type="button" className="">
-              Drink me!
-            </button>
-          </div>
         </div>
       )}
     </>
