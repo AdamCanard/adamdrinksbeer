@@ -18,8 +18,12 @@ export default function List(props: { Title: String; API: string }) {
     getListElements(props.API);
   }, []);
 
+  const refreshData = () => {
+    getListElements(props.API);
+  };
+
   return (
-    <div className="flex flex-col hi">
+    <div className="flex flex-col">
       <h1>{props.Title}</h1>
       <div className="w-96 flex flex-col border-2 ">
         {listElements.map((listElement, index) => {
@@ -27,6 +31,7 @@ export default function List(props: { Title: String; API: string }) {
           return <ListElement data={listElement} type={type} key={index} />;
         })}
       </div>
+      <button onClick={refreshData}>Click Me!</button>
     </div>
   );
 }

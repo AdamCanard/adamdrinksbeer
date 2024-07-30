@@ -3,11 +3,11 @@ import db from "../../server/pb";
 
 export async function POST(req: any, res: any) {
   const formData = await req.formData();
-  const inputName = formData.get("name");
-  const inputBrewery = formData.get("brewery");
-  const inputRating = formData.get("rating");
+  const inputName = formData.get("Beer");
+  const inputBrewery = formData.get("Brewery");
+  const inputRating = formData.get("Rating");
   const data = {
-    Name: inputName,
+    Beer: inputName,
     Brewery: inputBrewery,
     Rating: inputRating,
   };

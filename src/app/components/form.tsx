@@ -5,8 +5,6 @@ export default function Form(props: {
   API: string;
   Fields: string[];
 }) {
-  //[name,brewery,rating]
-
   const postData = async (formData: FormData) => {
     try {
       const response = await fetch(props.API, {
@@ -26,6 +24,7 @@ export default function Form(props: {
   };
 
   const handleSubmit = (event: any) => {
+    event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
     console.log(Object.fromEntries(formData.entries()));
