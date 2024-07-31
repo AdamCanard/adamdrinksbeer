@@ -14,7 +14,7 @@ export class DatabaseClient {
   async authAsAdmin() {
     if (process.env.PB_ADMIN_EMAIL && process.env.PB_ADMIN_PASS) {
       try {
-        await this.client.admins.authWithPassword(
+        const result = await this.client.admins.authWithPassword(
           process.env.PB_ADMIN_EMAIL,
           process.env.PB_ADMIN_PASS
         );
@@ -35,9 +35,7 @@ export class DatabaseClient {
   }
 
   async getDrank() {
-    if (!this.client.authStore.isValid) {
-      await this.authAsAdmin();
-    }
+    await this.authAsAdmin();
     const DrankList = await this.client.collection("Drank").getList(1, 50, {
       sort: "-created",
     });
@@ -45,9 +43,7 @@ export class DatabaseClient {
   }
 
   async getDrink() {
-    if (!this.client.authStore.isValid) {
-      await this.authAsAdmin();
-    }
+    await this.authAsAdmin();
     const DrankList = await this.client.collection("Drink").getList(1, 50, {
       sort: "-created",
     });
@@ -55,9 +51,7 @@ export class DatabaseClient {
   }
 
   async getById(collection: string, id: string) {
-    if (!this.client.authStore.isValid) {
-      await this.authAsAdmin();
-    }
+    await this.authAsAdmin();
     const record = await this.client.collection(collection).getOne(id, {});
     return record;
   }
