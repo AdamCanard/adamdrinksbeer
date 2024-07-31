@@ -13,6 +13,19 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      animation: {
+        roll: "roll 10s ease-in-out infinite",
+      },
+      keyframes: {
+        roll: {
+          "0%, 100%": {
+            transform: "translateX(-20%) translateY(-30%)",
+          },
+          "50%": {
+            transform: "none",
+          },
+        },
+      },
     },
   },
   plugins: [],

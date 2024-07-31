@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Background from "./components/background";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-[100vh] bg-red-500 w-full">{children}</body>
+      <body className="min-h-[100vh] bg-red-500 w-full overflow-hidden">
+        {children}
+        <Background />
+      </body>
     </html>
   );
 }
