@@ -27,7 +27,6 @@ export default function Form(props: {
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
-    console.log(Object.fromEntries(formData.entries()));
     postData(formData);
     // reset();
   };

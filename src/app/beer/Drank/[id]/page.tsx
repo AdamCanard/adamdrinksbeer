@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import BeerViewer from "../../../components/beerviewer";
 import { BeerData } from "../../../types";
 
-export default function Page({
-  params,
-}: {
-  params: { id: string; collection: string };
-}) {
+export default function Page({ params }: { params: { id: string } }) {
   const [beerData, setBeerData] = useState<BeerData>({
     Beer: "",
     Brewery: "",
