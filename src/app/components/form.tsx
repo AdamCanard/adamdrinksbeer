@@ -32,7 +32,7 @@ export default function Form(props: {
   };
 
   return (
-    <div>
+    <div className="bg-red-500 border-2 border-black">
       <h1>New {props.Title}:</h1>
       <form
         className="flex flex-col gap-2"

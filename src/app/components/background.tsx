@@ -1,9 +1,12 @@
 import "../globals.css";
 
-export default function Background() {
+export default function Background(props: { children?: React.ReactNode }) {
+  //TODO write code that dynamically makes the background with the single image
   return (
     <>
-      <div className="absolute z-0 min-w-[150vw] min-h-[150vh] bg-[url('../../public/PBRepeat2.png')] bg-cover bg-repeat animate-roll"></div>
+      <div className="flex justify-center min-w-[100vw] min-h-[100vh] bg-[url('../../public/PBRepeat2.png')] bg-fit animate-roll">
+        {props.children}
+      </div>
     </>
   );
 }

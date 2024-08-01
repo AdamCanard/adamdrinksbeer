@@ -19,10 +19,10 @@ const config: Config = {
       keyframes: {
         roll: {
           "0%, 100%": {
-            transform: "translateX(-20%) translateY(-30%)",
+            backgroundPosition: "-200px -100px",
           },
           "50%": {
-            transform: "none",
+            backgroundPosition: "0px 0px",
           },
         },
       },
