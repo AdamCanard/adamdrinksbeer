@@ -12,9 +12,15 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        pbr: "url('/PBR-s.png')",
+      },
+      margin: {
+        "8": "2rem",
+        "16": "4rem",
+        "20": "5rem",
       },
       animation: {
-        roll: "roll 10s ease-in-out infinite",
+        roll: "roll 5s ease-in-out infinite",
       },
       keyframes: {
         roll: {
