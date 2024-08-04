@@ -1,5 +1,6 @@
 import { BeerData } from "../types";
 import { useRouter } from "next/navigation";
+import { Drink } from "./drink";
 import Image from "next/image";
 import BeerLabel from "./beerlabel";
 import Beer from "../../../public/ColdWest.jpg";
@@ -24,13 +25,17 @@ export default function BeerViewer(props: { beerData: BeerData }) {
         />
         <div className="flex flex-col border-2 border-black w-72 justify-center items-center gap-2 bg-white">
           <BeerLabel title={"Beer"} data={props.beerData.Beer} />
-          <BeerLabel title={"Brewery"} data={props.beerData.Brewery} />
-
+          {props.beerData.Brewery && (
+            <BeerLabel title={"Brewery"} data={props.beerData.Brewery + ""} />
+          )}
           {props.beerData.Rating && (
             <BeerLabel title={"Rating"} data={props.beerData.Rating + ""} />
           )}
           {props.beerData.By && (
-            <BeerLabel title={"By"} data={props.beerData.By} />
+            <>
+              <BeerLabel title={"By"} data={props.beerData.By} />
+              <Drink />
+            </>
           )}
         </div>
       </div>

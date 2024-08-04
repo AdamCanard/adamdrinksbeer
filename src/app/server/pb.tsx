@@ -24,6 +24,16 @@ export class DatabaseClient {
     }
   }
 
+  async addBeer(data: {
+    Beer: string;
+    Brewery?: string;
+    By?: string;
+    Rating?: number;
+  }) {
+    await this.authAsAdmin();
+    const result = await this.client.collection("Beer").create(data);
+  }
+
   async addDrank(data: { Beer: string; Brewery: string; Rating: number }) {
     await this.authAsAdmin();
     const result = await this.client.collection("Drank").create(data);

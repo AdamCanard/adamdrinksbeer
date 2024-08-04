@@ -12,7 +12,7 @@ export interface Drink {
 
 export interface BeerData {
   Beer: string;
-  Brewery: string;
+  Brewery?: string;
   Rating?: number;
   By?: string;
 }
