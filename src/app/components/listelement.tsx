@@ -9,7 +9,7 @@ export default function ListElement(props: { data: any; type: string }) {
     <>
       {props.type == "Drank" ? (
         <div
-          className="flex w-full h-12 border-2 justify-between items-center p-2"
+          className="flex w-full h-12 border-2 justify-between items-center p-2 hover:cursor-pointer"
           onClick={handleClick}
         >
           <div>{props.data.Beer}</div>
