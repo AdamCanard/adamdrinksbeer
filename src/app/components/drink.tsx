@@ -2,9 +2,12 @@
 import { useState, useEffect, useContext } from "react";
 import { BeerData } from "../types";
 import { BeerContext } from "../beer/[id]/page";
+import { PopupContext } from "./beerviewer";
 
 export function Drink(props: { Id?: string }) {
   const beerData = useContext(BeerContext);
+  const popupData = useContext(PopupContext);
+
   const drinkBeer = async (formData: FormData) => {
     try {
       const response = await fetch("/api/drinkbeer/", {
@@ -24,23 +27,27 @@ export function Drink(props: { Id?: string }) {
   };
 
   const handleClick = async () => {
-    console.log(beerData);
-    if (beerData.Rating == 0) {
-      //TODO
+    if (beerData.Rating == 0 || beerData.Brewery == "") {
+      popupData.setDrinkTrigger(true);
     }
-    if (beerData.Brewery == "") {
-      //TODO
-    }
-    const formData = new FormData();
-    formData.append("id", beerData.id);
-    formData.append("Beer", beerData.Beer);
-    formData.append("Brewery", beerData.Brewery);
-    formData.append("By", beerData.By);
-    formData.append("Rating", beerData.Rating);
-    formData.append("Drank", true);
-
-    drinkBeer(formData);
   };
+
+  useEffect(() => {
+    if (
+      !popupData.drinkTrigger &&
+      popupData.rating != 0 &&
+      popupData.brewery != ""
+    ) {
+      const formData = new FormData();
+      formData.append("id", beerData.id);
+      formData.append("Beer", beerData.Beer);
+      formData.append("Brewery", popupData.brewery);
+      formData.append("By", beerData.By);
+      formData.append("Rating", popupData.rating);
+      formData.append("Drank", true);
+      drinkBeer(formData);
+    }
+  }, [popupData.drinkTrigger]);
 
   return (
     <div
