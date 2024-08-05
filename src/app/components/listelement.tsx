@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation";
 import { BeerData } from "../types";
 
-export default function ListElement(props: { data: BeerData; type: string }) {
+export default function ListElement(props: { data: BeerData }) {
   const router = useRouter();
+  //On click pass the beers database id to the router
   const handleClick = () => {
     router.push("/beer/" + props.data.id);
   };

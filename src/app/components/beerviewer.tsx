@@ -1,4 +1,4 @@
-import { BeerData } from "../types";
+import Popup from "./popup";
 import { useRouter } from "next/navigation";
 import {
   useState,
@@ -13,6 +13,7 @@ import BeerLabel from "./beerlabel";
 import Beer from "../../../public/ColdWest.jpg";
 import { BeerContext } from "../beer/[id]/page";
 
+//type for Popup context
 interface PopupContextType {
   rating: number;
   setRating: React.Dispatch<SetStateAction<number>>;
@@ -22,17 +23,18 @@ interface PopupContextType {
   setDrinkTrigger: React.Dispatch<SetStateAction<boolean>>;
 }
 
+//cast empty object to contexttype
 export const PopupContext = createContext<PopupContextType>(
   {} as PopupContextType
 );
 
 export default function BeerViewer() {
   const beerData = useContext(BeerContext);
-
   const [rating, setRating] = useState(0);
   const [brewery, setBrewery] = useState("");
   const [drinkTrigger, setDrinkTrigger] = useState(false);
 
+  //Set rating and brewing to beerData values
   useEffect(() => {
     if (beerData.Rating) {
       setRating(beerData.Rating);
@@ -81,6 +83,8 @@ export default function BeerViewer() {
               )}
               {beerData.By && (
                 <>
+                  {/* Only render drink button here because this is what works, 
+                could check drank value of database object */}
                   <BeerLabel title={"By"} data={beerData.By} />
                   <Drink />
                 </>
@@ -90,55 +94,5 @@ export default function BeerViewer() {
         </Popup>
       </PopupContext.Provider>
     </div>
-  );
-}
-
-export function Popup(props: { children?: React.ReactNode }) {
-  const popupData = useContext(PopupContext);
-  const handleSubmit = () => {
-    if (popupData.rating != 0 && popupData.brewery != "") {
-      popupData.setDrinkTrigger(false);
-    }
-  };
-  return (
-    <>
-      {popupData.drinkTrigger ? (
-        <>
-          <div className="absolute flex w-full h-full justify-center items-center">
-            <div className=" w-80 border-2 border-black bg-white z-10 p-2">
-              <label className="flex justify-between">
-                Enter Rating:
-                <input
-                  className="border-2 border-black"
-                  type="text"
-                  name="Rating"
-                  value={popupData.rating || ""}
-                  onChange={(e) => popupData.setRating(+e.target.value)}
-                />
-              </label>
-              <label className="flex justify-between">
-                Enter Brewery:
-                <input
-                  className="border-2 border-black"
-                  type="text"
-                  name="Brewery"
-                  value={popupData.brewery}
-                  onChange={(e) => popupData.setBrewery(e.target.value)}
-                />
-              </label>
-              <div
-                onClick={handleSubmit}
-                className=" w-16 h-6 border-2 border-black hover:cursor-pointer leading-5 pl-1"
-              >
-                Submit
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 pointer-events-none">{props.children}</div>
-        </>
-      ) : (
-        <>{props.children}</>
-      )}
-    </>
   );
 }

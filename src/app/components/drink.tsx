@@ -1,13 +1,13 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
-import { BeerData } from "../types";
+import { useEffect, useContext } from "react";
 import { BeerContext } from "../beer/[id]/page";
 import { PopupContext } from "./beerviewer";
 
-export function Drink(props: { Id?: string }) {
+export function Drink() {
   const beerData = useContext(BeerContext);
   const popupData = useContext(PopupContext);
 
+  //call for changing drank value of database object
   const drinkBeer = async (formData: FormData) => {
     try {
       const response = await fetch("/api/drinkbeer/", {
@@ -26,18 +26,23 @@ export function Drink(props: { Id?: string }) {
     }
   };
 
+  //On click enable popup if rating or brewery are empty
   const handleClick = async () => {
     if (beerData.Rating == 0 || beerData.Brewery == "") {
       popupData.setDrinkTrigger(true);
     }
   };
 
+  //useEffect on drink trigger
   useEffect(() => {
     if (
+      //if popup is closed
       !popupData.drinkTrigger &&
+      //and rating + brewery are non empty
       popupData.rating != 0 &&
       popupData.brewery != ""
     ) {
+      //create formdata and post
       const formData = new FormData();
       formData.append("id", beerData.id);
       formData.append("Beer", beerData.Beer);

@@ -1,6 +1,7 @@
 import InputBox from "./inputbox";
 
 export default function Form(props: { Title: String; Fields: string[] }) {
+  //add new Beer from formData
   const postData = async (formData: FormData) => {
     try {
       const response = await fetch("/api/newbeer/", {
@@ -19,6 +20,7 @@ export default function Form(props: { Title: String; Fields: string[] }) {
     }
   };
 
+  //On submit grab data from form, add the appropriate Drank value based on Form Title
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const form = event.target;
@@ -41,6 +43,7 @@ export default function Form(props: { Title: String; Fields: string[] }) {
         autoComplete="off"
       >
         {props.Fields.map((title: string, index: number) => {
+          // For every string in fields, generate an InputBox for the value
           return <InputBox title={title} key={index} />;
         })}
 

@@ -5,8 +5,7 @@ import { useState, useEffect } from "react";
 export default function List(props: { Title: string }) {
   const [listElements, setListElements] = useState<BeerData[]>([]);
 
-  //TODO fix type of listElements
-
+  //pull list of beers from database
   const getListElements = async () => {
     try {
       const response = await fetch("/api/getbeer/", { method: "GET" });
@@ -17,10 +16,12 @@ export default function List(props: { Title: string }) {
     }
   };
 
+  //On Render pull data from database
   useEffect(() => {
     getListElements();
   }, []);
 
+  //Refreshes List
   const refreshData = () => {
     getListElements();
   };
@@ -31,15 +32,14 @@ export default function List(props: { Title: string }) {
         {props.Title}
       </h1>
       <div className="w-96 flex flex-col border-2 bg-red-500 h-64 overflow-y-scroll">
+        {/* For each database object in list elements */}
         {listElements.map((listElement, index) => {
+          //if List title is Drank, add database elements whos drank value is true
           if (props.Title == "Drank" && listElement.Drank)
-            return (
-              <ListElement data={listElement} type={props.Title} key={index} />
-            );
+            return <ListElement data={listElement} key={index} />;
+          //if List title is Drink, add database elements whos drank value is false
           else if (props.Title == "Drink" && !listElement.Drank) {
-            return (
-              <ListElement data={listElement} type={props.Title} key={index} />
-            );
+            return <ListElement data={listElement} key={index} />;
           }
         })}
       </div>

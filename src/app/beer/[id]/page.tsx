@@ -8,13 +8,17 @@ export const BeerContext = createContext<BeerData>({
   Drank: false,
 });
 
+//Route here after clicking on Beer list element
 export default function Page({ params }: { params: { id: string } }) {
+  //assign the beer id to the beerData
+  //unsure if this is neccesary
   const [beerData, setBeerData] = useState<BeerData>({
     id: params.id,
     Beer: "",
     Drank: false,
   });
 
+  //store beerdata on beer by id
   const getData = async (formData: FormData) => {
     try {
       const response = await fetch("/api/getbeerbyid/", {
@@ -29,6 +33,7 @@ export default function Page({ params }: { params: { id: string } }) {
     }
   };
 
+  //on render grab the beer data from the given beer id
   useEffect(() => {
     const formData = new FormData();
     formData.append("id", params.id);
@@ -36,6 +41,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }, []);
 
   return (
+    //setup beerdata context
     <BeerContext.Provider value={beerData}>
       <BeerViewer />
     </BeerContext.Provider>
