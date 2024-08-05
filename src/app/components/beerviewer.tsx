@@ -28,7 +28,7 @@ export default function BeerViewer(props: { beerData: BeerData }) {
           {props.beerData.Brewery && (
             <BeerLabel title={"Brewery"} data={props.beerData.Brewery + ""} />
           )}
-          {props.beerData.Rating && (
+          {props.beerData.Rating != 0 && (
             <BeerLabel title={"Rating"} data={props.beerData.Rating + ""} />
           )}
           {props.beerData.By && (

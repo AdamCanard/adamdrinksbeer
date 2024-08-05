@@ -6,6 +6,6 @@ export async function POST() {
 }
 
 export async function GET() {
-  const drankList = await db.getDrank();
+  const drankList = await db.getBeer();
   return new Response(JSON.stringify(drankList), { status: 200 });
 }

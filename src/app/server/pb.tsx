@@ -1,4 +1,5 @@
 import PocketBase from "pocketbase";
+import { BeerData } from "../types";
 
 export const POCKET_BASE_URL = "http://127.0.0.1:8090";
 
@@ -24,14 +25,16 @@ export class DatabaseClient {
     }
   }
 
-  async addBeer(data: {
-    Beer: string;
-    Brewery?: string;
-    By?: string;
-    Rating?: number;
-  }) {
+  async addBeer(data: BeerData) {
     await this.authAsAdmin();
     const result = await this.client.collection("Beer").create(data);
+  }
+  async getBeer() {
+    await this.authAsAdmin();
+    const BeerList = await this.client.collection("Beer").getList(1, 50, {
+      sort: "-created",
+    });
+    return BeerList;
   }
 
   async addDrank(data: { Beer: string; Brewery: string; Rating: number }) {

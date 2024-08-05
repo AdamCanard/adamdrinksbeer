@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { BeerData } from "../types";
 
 export function Drink() {
-  const [drankList, setDrankList] = useState<BeerData[]>();
-  const [drinkList, setDrinkList] = useState<BeerData[]>();
-
   const makeBeer = async (formData: FormData) => {
     try {
       const response = await fetch("/api/newbeer/", {
@@ -24,38 +21,8 @@ export function Drink() {
     }
   };
 
-  const handleClick = async () => {
-    try {
-      const response = await fetch("/api/getdrank/", { method: "GET" });
-      const drankListResponse = await response.json();
-      setDrankList(drankListResponse.items);
-    } catch {
-      //dont throw error
-    }
-    try {
-      const response = await fetch("/api/getdrink/", { method: "GET" });
-      const drinkListResponse = await response.json();
-      setDrinkList(drinkListResponse.items);
-    } catch {
-      //dont throw error
-    }
-  };
-  useEffect(() => {
-    console.log(drinkList, drankList);
+  const handleClick = async () => {};
 
-    if (drinkList != undefined && drankList != undefined) {
-      const beerList = drinkList.concat(drankList);
-      console.log(beerList);
-      beerList.map((data) => {
-        const formData = new FormData();
-        formData.append("Beer", data.Beer);
-        formData.append("Brewery", data.Brewery || "");
-        formData.append("By", data.By || "");
-        formData.append("Rating", data.Rating || 0);
-        makeBeer(formData);
-      });
-    }
-  }, [drinkList, drankList]);
   return (
     <div
       onClick={handleClick}

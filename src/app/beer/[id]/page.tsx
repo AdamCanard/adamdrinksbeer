@@ -1,21 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import BeerViewer from "../../../components/beerviewer";
-import { BeerData } from "../../../types";
+import BeerViewer from "../../components/beerviewer";
+import { BeerData } from "../../types";
 
-export default function Page({
-  params,
-}: {
-  params: { id: string; collection: string };
-}) {
+export default function Page({ params }: { params: { id: string } }) {
   const [beerData, setBeerData] = useState<BeerData>({
     Beer: "",
-    Brewery: "",
-    By: "",
+    Drank: false,
   });
   const getData = async (formData: FormData) => {
     try {
-      const response = await fetch("/api/getbyid/", {
+      const response = await fetch("/api/getbeerbyid/", {
         method: "POST",
         body: formData,
       });
@@ -29,7 +24,6 @@ export default function Page({
 
   useEffect(() => {
     const formData = new FormData();
-    formData.append("collection", "Drink");
     formData.append("id", params.id);
     getData(formData);
   }, []);

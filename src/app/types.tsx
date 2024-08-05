@@ -11,8 +11,10 @@ export interface Drink {
 }
 
 export interface BeerData {
+  id?: string;
   Beer: string;
   Brewery?: string;
   Rating?: number;
   By?: string;
+  Drank: boolean;
 }

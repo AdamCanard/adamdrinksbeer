@@ -1,13 +1,9 @@
 import InputBox from "./inputbox";
 
-export default function Form(props: {
-  Title: String;
-  API: string;
-  Fields: string[];
-}) {
+export default function Form(props: { Title: String; Fields: string[] }) {
   const postData = async (formData: FormData) => {
     try {
-      const response = await fetch(props.API, {
+      const response = await fetch("/api/newbeer/", {
         method: "POST",
         body: formData,
       });
@@ -27,6 +23,11 @@ export default function Form(props: {
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
+    if (props.Title == "Drank") {
+      formData.append("Drank", true);
+    } else {
+      formData.append("Drank", false);
+    }
     postData(formData);
     // reset();
   };
