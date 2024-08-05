@@ -1,13 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import BeerViewer from "../../components/beerviewer";
 import { BeerData } from "../../types";
 
+export const BeerContext = createContext<BeerData>({
+  Beer: "",
+  Drank: false,
+});
+
 export default function Page({ params }: { params: { id: string } }) {
   const [beerData, setBeerData] = useState<BeerData>({
+    id: params.id,
     Beer: "",
     Drank: false,
   });
+
   const getData = async (formData: FormData) => {
     try {
       const response = await fetch("/api/getbeerbyid/", {
@@ -28,5 +35,9 @@ export default function Page({ params }: { params: { id: string } }) {
     getData(formData);
   }, []);
 
-  return <BeerViewer beerData={beerData} />;
+  return (
+    <BeerContext.Provider value={beerData}>
+      <BeerViewer />
+    </BeerContext.Provider>
+  );
 }

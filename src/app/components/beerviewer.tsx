@@ -1,12 +1,15 @@
 import { BeerData } from "../types";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { Drink } from "./drink";
 import Image from "next/image";
 import BeerLabel from "./beerlabel";
 import Beer from "../../../public/ColdWest.jpg";
+import { BeerContext } from "../beer/[id]/page";
 
-export default function BeerViewer(props: { beerData: BeerData }) {
+export default function BeerViewer() {
   const router = useRouter();
+  const beerData = useContext(BeerContext);
   const routerReturn = () => {
     router.back();
   };
@@ -24,16 +27,16 @@ export default function BeerViewer(props: { beerData: BeerData }) {
           alt="Picture of the author"
         />
         <div className="flex flex-col border-2 border-black w-72 justify-center items-center gap-2 bg-white">
-          <BeerLabel title={"Beer"} data={props.beerData.Beer} />
-          {props.beerData.Brewery && (
-            <BeerLabel title={"Brewery"} data={props.beerData.Brewery + ""} />
+          <BeerLabel title={"Beer"} data={beerData.Beer} />
+          {beerData.Brewery && (
+            <BeerLabel title={"Brewery"} data={beerData.Brewery + ""} />
           )}
-          {props.beerData.Rating != 0 && (
-            <BeerLabel title={"Rating"} data={props.beerData.Rating + ""} />
+          {beerData.Rating != 0 && (
+            <BeerLabel title={"Rating"} data={beerData.Rating + ""} />
           )}
-          {props.beerData.By && (
+          {beerData.By && (
             <>
-              <BeerLabel title={"By"} data={props.beerData.By} />
+              <BeerLabel title={"By"} data={beerData.By} />
               <Drink />
             </>
           )}

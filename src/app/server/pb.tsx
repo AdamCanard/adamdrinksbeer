@@ -29,6 +29,7 @@ export class DatabaseClient {
     await this.authAsAdmin();
     const result = await this.client.collection("Beer").create(data);
   }
+
   async getBeer() {
     await this.authAsAdmin();
     const BeerList = await this.client.collection("Beer").getList(1, 50, {
@@ -37,31 +38,36 @@ export class DatabaseClient {
     return BeerList;
   }
 
-  async addDrank(data: { Beer: string; Brewery: string; Rating: number }) {
+  async updateBeer(data: BeerData, id: string) {
     await this.authAsAdmin();
-    const result = await this.client.collection("Drank").create(data);
+    const record = await this.client.collection("Beer").update(id, data);
   }
 
-  async addDrink(data: { Beer: string; Brewery: string; By: string }) {
-    await this.authAsAdmin();
-    const result = await this.client.collection("Drink").create(data);
-  }
+  // async addDrank(data: { Beer: string; Brewery: string; Rating: number }) {
+  //   await this.authAsAdmin();
+  //   const result = await this.client.collection("Drank").create(data);
+  // }
 
-  async getDrank() {
-    await this.authAsAdmin();
-    const DrankList = await this.client.collection("Drank").getList(1, 50, {
-      sort: "-created",
-    });
-    return DrankList;
-  }
+  // async addDrink(data: { Beer: string; Brewery: string; By: string }) {
+  //   await this.authAsAdmin();
+  //   const result = await this.client.collection("Drink").create(data);
+  // }
 
-  async getDrink() {
-    await this.authAsAdmin();
-    const DrankList = await this.client.collection("Drink").getList(1, 50, {
-      sort: "-created",
-    });
-    return DrankList;
-  }
+  // async getDrank() {
+  //   await this.authAsAdmin();
+  //   const DrankList = await this.client.collection("Drank").getList(1, 50, {
+  //     sort: "-created",
+  //   });
+  //   return DrankList;
+  // }
+
+  // async getDrink() {
+  //   await this.authAsAdmin();
+  //   const DrankList = await this.client.collection("Drink").getList(1, 50, {
+  //     sort: "-created",
+  //   });
+  //   return DrankList;
+  // }
 
   async getById(collection: string, id: string) {
     await this.authAsAdmin();

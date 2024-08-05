@@ -15,8 +15,11 @@ export default function ListElement(props: { data: BeerData; type: string }) {
         <>
           <div>{props.data.Beer}</div>
           <div>{props.data.Brewery}</div>
-          {props.data.Rating != 0 && <div>{props.data.Rating}</div>}
-          {props.data.By && <div>{props.data.By}</div>}
+          {props.data.Rating != 0 ? (
+            <div>{props.data.Rating}</div>
+          ) : (
+            <div>{props.data.By}</div>
+          )}
         </>
       </div>
     </>
