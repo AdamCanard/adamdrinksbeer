@@ -5,7 +5,7 @@ export default function Background(props: { children?: React.ReactNode }) {
   //look at dynamicbackground.tsx
   return (
     <>
-      <div className="flex justify-center min-w-[100vw] min-h-[100vh] bg-[url('../../public/PBRepeat2.png')] bg-fit animate-roll">
+      <div className="flex justify-center min-w-[100vw] min-h-[100vh] bg-[url('../../public/PBRepeat2.png')] bg-fit animate-rollts">
         {props.children}
       </div>
     </>

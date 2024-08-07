@@ -20,10 +20,10 @@ const config: Config = {
         "20": "5rem",
       },
       animation: {
-        roll: "roll 5s ease-in-out infinite",
+        rollts: "rollts 5s ease-in-out infinite",
       },
       keyframes: {
-        roll: {
+        rollts: {
           "0%, 100%": {
             backgroundPosition: "-200px -100px",
           },

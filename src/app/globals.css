@@ -21,3 +21,17 @@
     text-wrap: balance;
   }
 }
+
+html,
+body {
+  overflow-y: hidden;
+  height: 100%;
+}
+@keyframes roll {
+  from {
+    transform: translate(-100px, 0px);
+  }
+  to {
+    transform: translate(0px, 0px);
+  }
+}
