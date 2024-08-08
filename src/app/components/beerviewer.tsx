@@ -10,8 +10,9 @@ import {
 import { Drink } from "./drink";
 import Image from "next/image";
 import BeerLabel from "./beerlabel";
-import Beer from "../../../public/ColdWest.jpg";
+import Beer from "../../../public/PBR-s.png";
 import { BeerContext } from "../beer/[id]/page";
+import { BackgroundContext } from "./dynamicbackground";
 
 //type for Popup context
 interface PopupContextType {
@@ -30,6 +31,7 @@ export const PopupContext = createContext<PopupContextType>(
 
 export default function BeerViewer() {
   const beerData = useContext(BeerContext);
+  const backgroundContext = useContext(BackgroundContext);
   const [rating, setRating] = useState(0);
   const [brewery, setBrewery] = useState("");
   const [drinkTrigger, setDrinkTrigger] = useState(false);
@@ -49,6 +51,14 @@ export default function BeerViewer() {
   const routerReturn = () => {
     router.back();
   };
+
+  const handleClick = () => {
+    backgroundContext.setBeerImages([
+      Beer.src,
+      ...backgroundContext.beerImages,
+    ]);
+  };
+
   return (
     <div className="w-full h-screen">
       <div
@@ -72,6 +82,7 @@ export default function BeerViewer() {
               width={250}
               height={250}
               alt="Picture of the author"
+              onClick={handleClick}
             />
             <div className="flex flex-col border-2 border-black w-72 justify-center items-center gap-2 bg-white">
               <BeerLabel title={"Beer"} data={beerData.Beer} />
@@ -81,14 +92,8 @@ export default function BeerViewer() {
               {beerData.Rating != 0 && (
                 <BeerLabel title={"Rating"} data={beerData.Rating + ""} />
               )}
-              {beerData.By && (
-                <>
-                  {/* Only render drink button here because this is what works, 
-                could check drank value of database object */}
-                  <BeerLabel title={"By"} data={beerData.By} />
-                  <Drink />
-                </>
-              )}
+              {beerData.By && <BeerLabel title={"By"} data={beerData.By} />}
+              {!beerData.Drank && <Drink />}
             </div>
           </div>
         </Popup>

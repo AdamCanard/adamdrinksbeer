@@ -1,12 +1,10 @@
+"use client";
 import Frontpage from "./components/frontpage";
-import Background from "./components/background";
 
-export default function Home() {
+export default function Page() {
   return (
     <div className="w-full h-screen">
-      <Background>
-        <Frontpage />
-      </Background>
+      <Frontpage />
     </div>
   );
 }

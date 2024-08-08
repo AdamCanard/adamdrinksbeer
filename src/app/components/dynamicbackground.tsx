@@ -1,18 +1,31 @@
 "use client";
-import Beer from "../../../public/Corona.png";
 
-export default function DynamicBackground(props: { image: string }) {
-  const HandleClick = () => {
-    console.log(props.image);
-  };
+import { BeerList } from "./beerlist";
+import { createContext, SetStateAction, useState } from "react";
+
+interface BackgroundContextType {
+  beerImages: string[];
+  setBeerImages: React.Dispatch<SetStateAction<string[]>>;
+}
+
+export const BackgroundContext = createContext<BackgroundContextType>(
+  {} as BackgroundContextType
+);
+
+export default function DynamicBackground(props: {
+  children?: React.ReactNode;
+}) {
+  const [beerImages, setBeerImages] = useState<string[]>(BeerList);
   return (
     <div className="relative flex flex-col w-screen h-screen overflow-clip">
-      <HorizontalLine image={props.image} offset={1} />
-      <HorizontalLine image={Beer.src} offset={2} />
-      <HorizontalLine image={props.image} offset={3} />
-      <HorizontalLine image={Beer.src} offset={4} />
-      <HorizontalLine image={props.image} offset={5} />
-      <HorizontalLine image={Beer.src} offset={6} />
+      {beerImages.map((image: string, index: number) => {
+        return <HorizontalLine image={image} offset={index} key={index} />;
+      })}
+      <div className="z-10">
+        <BackgroundContext.Provider value={{ beerImages, setBeerImages }}>
+          {props.children}
+        </BackgroundContext.Provider>
+      </div>
     </div>
   );
 }

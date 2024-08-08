@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, createContext } from "react";
 import BeerViewer from "../../components/beerviewer";
+import DynamicBackground from "../../components/dynamicbackground";
 import { BeerData } from "../../types";
 
 export const BeerContext = createContext<BeerData>({
@@ -38,7 +39,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const formData = new FormData();
     formData.append("id", params.id);
     getData(formData);
-  }, []);
+  }, [params.id]);
 
   return (
     //setup beerdata context
