@@ -10,9 +10,9 @@ import {
 import { Drink } from "./drink";
 import Image from "next/image";
 import BeerLabel from "./beerlabel";
-import Beer from "../../../public/PBR-s.png";
 import { BeerContext } from "../beer/[id]/page";
 import { BackgroundContext } from "./dynamicbackground";
+const POCKET_BASE_URL = "http://127.0.0.1:8090";
 
 //type for Popup context
 interface PopupContextType {
@@ -54,7 +54,14 @@ export default function BeerViewer() {
 
   const handleClick = () => {
     backgroundContext.setBeerImages([
-      Beer.src,
+      POCKET_BASE_URL +
+        "/api/files/" +
+        beerData.collectionId +
+        "/" +
+        beerData.id +
+        "/" +
+        beerData.Image +
+        "?thumb=100x120",
       ...backgroundContext.beerImages,
     ]);
   };
@@ -78,10 +85,18 @@ export default function BeerViewer() {
         <Popup>
           <div className="flex flex-col gap-4 justify-center items-center">
             <Image
-              src={Beer}
+              src={
+                POCKET_BASE_URL +
+                "/api/files/" +
+                beerData.collectionId +
+                "/" +
+                beerData.id +
+                "/" +
+                beerData.Image
+              }
               width={250}
               height={250}
-              alt="Picture of the author"
+              alt="Picture of the Beer"
               onClick={handleClick}
             />
             <div className="flex flex-col border-2 border-black w-72 justify-center items-center gap-2 bg-white">
