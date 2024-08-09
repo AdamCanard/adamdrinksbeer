@@ -1,23 +1,15 @@
 "use client";
-import { useEffect, useState, createContext } from "react";
-import BeerViewer from "../../components/beerviewer";
-import DynamicBackground from "../../components/dynamicbackground";
-import { BeerData } from "../../types";
+import { useEffect, useState } from "react";
 
-export const BeerContext = createContext<BeerData>({
-  Beer: "",
-  Drank: false,
-});
+import { BeerData } from "../../types";
+import BeerDisplay from "../../components/beerdisplay";
 
 //Route here after clicking on Beer list element
 export default function Page({ params }: { params: { id: string } }) {
   //assign the beer id to the beerData
   //unsure if this is neccesary
-  const [beerData, setBeerData] = useState<BeerData>({
-    id: params.id,
-    Beer: "",
-    Drank: false,
-  });
+
+  const [beerData, setBeerData] = useState<BeerData>({} as BeerData);
 
   //store beerdata on beer by id
   const getData = async (formData: FormData) => {
@@ -25,12 +17,18 @@ export default function Page({ params }: { params: { id: string } }) {
       const response = await fetch("/api/getbeerbyid/", {
         method: "POST",
         body: formData,
-      });
-      const beerResponse = await response.json();
+      })
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
-      setBeerData(beerResponse);
-    } catch {
-      //dont throw error
+      setBeerData(response);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -43,8 +41,6 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     //setup beerdata context
-    <BeerContext.Provider value={beerData}>
-      <BeerViewer />
-    </BeerContext.Provider>
+    <BeerDisplay beerData={beerData} />
   );
 }

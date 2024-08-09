@@ -10,7 +10,7 @@ import {
 import { Drink } from "./drink";
 import Image from "next/image";
 import BeerLabel from "./beerlabel";
-import { BeerContext } from "../beer/[id]/page";
+import { BeerContext } from "./beerdisplay";
 import { BackgroundContext } from "./dynamicbackground";
 const POCKET_BASE_URL = "http://127.0.0.1:8090";
 

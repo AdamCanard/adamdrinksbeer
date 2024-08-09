@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useContext } from "react";
-import { BeerContext } from "../beer/[id]/page";
+import { BeerContext } from "./beerdisplay";
 import { PopupContext } from "./beerviewer";
 
 export function Drink() {
@@ -52,7 +52,7 @@ export function Drink() {
       formData.append("Drank", true);
       drinkBeer(formData);
     }
-  }, [popupData.drinkTrigger]);
+  }, [popupData, beerData]);
 
   return (
     <div
