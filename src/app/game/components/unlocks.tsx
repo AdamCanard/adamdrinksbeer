@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GameContext, UnlockType } from "./game";
 
 export default function Unlocks() {
@@ -7,7 +7,7 @@ export default function Unlocks() {
   return (
     <div className="flex flex-row flex-wrap w-full h-1/3 content-start">
       {gameContext.unlockList.map((unlock, index) => {
-        if (unlock.Trigger) {
+        if (unlock.Trigger(gameContext.upgradeList[index].Amount)) {
           return <Unlock unlock={unlock} index={index} key={index} />;
         }
       })}

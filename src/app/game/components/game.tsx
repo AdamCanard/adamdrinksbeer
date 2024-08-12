@@ -35,7 +35,7 @@ export interface UpgradeType {
 export interface UnlockType {
   Title: string;
   Desc: string;
-  Trigger: boolean;
+  Trigger: (int: number) => boolean;
 }
 
 export interface Action {
@@ -151,16 +151,34 @@ const UnlockList: UnlockType[] = [
   {
     Title: "Fragmented sips",
     Desc: "Splits all your quantum sips in half, doubling their effectiveness",
-    Trigger: true,
+    Trigger: (int) => {
+      if (int >= 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   {
     Title: "Better Friends",
     Desc: "You scold your friends into drinking more, Makes them sip twice as fast",
-    Trigger: true,
+    Trigger: (int) => {
+      if (int >= 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   {
     Title: "Bigger Bits",
     Desc: "You order larger drill bits to make bigger holes, doubles the size of holes",
-    Trigger: true,
+    Trigger: (int) => {
+      if (int >= 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 ];
