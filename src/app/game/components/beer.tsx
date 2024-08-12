@@ -4,6 +4,7 @@ import Image from "next/image";
 import BeerImg from "../../../../public/PBR.png";
 
 export default function Beer() {
+  //The clickable beer that adds sips to sip counter
   const gameContext = useContext(GameContext);
   const handleClick = () => {
     gameContext.dispatch({ type: "CLICK" });

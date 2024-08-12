@@ -11,6 +11,7 @@ import Clicker from "./clicker";
 import Shop from "./shop";
 import { useFrameTime } from "./gameloop";
 
+//setup Main context for Game
 interface GameContextType {
   state: Istate;
   dispatch: React.Dispatch<Action>;
@@ -48,13 +49,17 @@ export interface Istate {
   sps: number;
 }
 
+//define reducer for game mechanics
 function reducer(state: Istate, action: Action) {
   switch (action.type) {
+    //runs on each beer click
+    //TODO change 1 to "SIP POWER variable"
     case "CLICK":
       return {
         sips: state.sips + 1,
         sps: state.sps,
       };
+    //runs on purchase of item, spends the sips
     case "BUY":
       if (action.buy) {
         return {
@@ -62,6 +67,7 @@ function reducer(state: Istate, action: Action) {
           sps: state.sps,
         };
       }
+    //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
     case "LOOP":
       if (action.sps) {
         return {
@@ -75,6 +81,7 @@ function reducer(state: Istate, action: Action) {
   }
 }
 
+//Starting game state
 const initState: Istate = { sips: 0, sps: 0 };
 
 export default function Game() {
@@ -86,12 +93,14 @@ export default function Game() {
   //main gameloop updates once a second
   useEffect(() => {
     let sps = 0;
+    //Counts all upgrades add their SPS together
     for (const upgrade in upgradeList) {
       if (Object.prototype.hasOwnProperty.call(upgradeList, upgrade)) {
         const element = upgradeList[upgrade];
         sps += element.Amount * element.SPS;
       }
     }
+    //send SPS to dispatch
     dispatch({ type: "LOOP", sps: sps });
   }, [frameTime, upgradeList]);
 
