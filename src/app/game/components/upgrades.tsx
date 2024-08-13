@@ -24,7 +24,7 @@ export default function Upgrades() {
 
 export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
   const [cost, setCost] = useState<number>(0);
-  const [buy, setBuy] = useState<Boolean>(false);
+  const [buy, setBuy] = useState<boolean>(false);
   const gameContext = useContext(GameContext);
 
   //Handles purchase of upgrades

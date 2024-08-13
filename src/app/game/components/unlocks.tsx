@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GameContext } from "./game";
 import { UnlockType } from "./gametypes";
 
@@ -19,10 +19,14 @@ export default function Unlocks() {
         let upgradeKey = condition[0];
         let upgradeAmount = condition[1];
 
-        //if condition object is satisfied, render button
-        if (gameContext.upgradeList[upgradeKey].Amount >= upgradeAmount) {
+        //if condition object is satisfied,and the unlock hasnt been bought render button
+        if (
+          gameContext.upgradeList[upgradeKey].Amount >= upgradeAmount &&
+          !gameContext.unlockList[key].Bought
+        ) {
           return (
             <Unlock
+              title={key}
               unlock={gameContext.unlockList[key]}
               index={index}
               key={index}
@@ -34,6 +38,40 @@ export default function Unlocks() {
   );
 }
 
-export function Unlock(props: { unlock: UnlockType; index: number }) {
-  return <div className="w-11 h-11 bg-white border-2 border-black"></div>;
+export function Unlock(props: {
+  title: string;
+  unlock: UnlockType;
+  index: number;
+}) {
+  const [buy, setBuy] = useState<boolean>(false);
+  const gameContext = useContext(GameContext);
+
+  //Handles purchase of upgrades
+  const handleClick = () => {
+    let unlocks = gameContext.unlockList;
+    unlocks[props.title].Bought = true;
+    gameContext.setUnlockList(unlocks);
+    gameContext.dispatch({ type: "BUY", buy: props.unlock.Cost });
+  };
+
+  useEffect(() => {
+    if (gameContext.state.sips >= props.unlock.Cost) {
+      setBuy(true);
+    } else {
+      setBuy(false);
+    }
+  }, [gameContext.state.sips, props.unlock.Cost]);
+
+  return (
+    <>
+      {buy ? (
+        <div
+          className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer"
+          onClick={handleClick}
+        ></div>
+      ) : (
+        <div className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer opacity-50"></div>
+      )}
+    </>
+  );
 }

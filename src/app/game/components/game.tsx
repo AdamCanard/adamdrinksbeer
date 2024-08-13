@@ -10,7 +10,7 @@ import Battleground from "./battleground";
 import Clicker from "./clicker";
 import Shop from "./shop";
 import { useFrameTime } from "./gameloop";
-import { Action, Istate, IUnlock, IUpgrade } from "./gametypes";
+import { IUnlock, IUpgrade } from "./gametypes";
 
 //setup Main context for Game
 interface GameContextType {
@@ -27,6 +27,19 @@ export const GameContext = createContext<GameContextType>(
   {} as GameContextType
 );
 
+export interface Action {
+  type: string;
+  sps?: number;
+  buy?: number;
+  power?: number;
+}
+
+export interface Istate {
+  sips: number;
+  sipPower: number;
+  sps: number;
+}
+
 //define reducer for game mechanics
 function reducer(state: Istate, action: Action) {
   switch (action.type) {
@@ -34,15 +47,25 @@ function reducer(state: Istate, action: Action) {
     //TODO change 1 to "SIP POWER variable"
     case "CLICK":
       return {
-        sips: state.sips + 1,
+        sips: state.sips + state.sipPower,
         sps: state.sps,
+        sipPower: state.sipPower,
       };
+
+    case "POWER":
+      if (action.power)
+        return {
+          sips: state.sips,
+          sps: state.sps,
+          sipPower: state.sipPower * action.power,
+        };
     //runs on purchase of item, spends the sips
     case "BUY":
       if (action.buy) {
         return {
           sips: state.sips - action.buy,
           sps: state.sps,
+          sipPower: state.sipPower,
         };
       }
     //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
@@ -51,6 +74,7 @@ function reducer(state: Istate, action: Action) {
         return {
           sips: state.sips + action.sps,
           sps: action.sps,
+          sipPower: state.sipPower,
         };
       }
 
@@ -60,7 +84,7 @@ function reducer(state: Istate, action: Action) {
 }
 
 //Starting game state
-const initState: Istate = { sips: 0, sps: 0 };
+const initState: Istate = { sips: 0, sipPower: 1, sps: 0 };
 
 export default function Game() {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -131,18 +155,32 @@ const UpgradeOBJ: IUpgrade = {
 const UnlockOBJ: IUnlock = {
   "Fragmented sips": {
     Desc: "Splits all your Quantum sips in half, doubling their effectiveness",
+    Cost: 100,
     Condition: { "Quantum Sip": 10 },
+    Bought: false,
   },
   "More Fragmented sips": {
     Desc: "Splits all your Fragmented sips in half, doubling their effectiveness",
+    Cost: 250,
     Condition: { "Quantum Sip": 25 },
+    Bought: false,
+  },
+  "Even More Fragmented sips": {
+    Desc: "Splits all your Fragmented sips in half, doubling their effectiveness",
+    Cost: 500,
+    Condition: { "Quantum Sip": 50 },
+    Bought: false,
   },
   "Better Friends": {
     Desc: "You scold your friends into drinking more, Makes them sip twice as fast",
+    Cost: 1000,
     Condition: { Friend: 10 },
+    Bought: false,
   },
   "Bigger Bits": {
     Desc: "You order larger drill bits to make bigger holes, doubles the size of holes",
+    Cost: 12000,
     Condition: { Drill: 10 },
+    Bought: false,
   },
 };

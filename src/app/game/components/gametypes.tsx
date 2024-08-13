@@ -18,16 +18,7 @@ export interface ICondition {
 
 export interface UnlockType {
   Desc: string;
+  Cost: number;
   Condition: ICondition;
-}
-
-export interface Action {
-  type: string;
-  sps?: number;
-  buy?: number;
-}
-
-export interface Istate {
-  sips: number;
-  sps: number;
+  Bought: boolean;
 }
