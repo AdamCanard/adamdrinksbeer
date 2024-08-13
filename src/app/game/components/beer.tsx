@@ -19,6 +19,9 @@ export default function Beer() {
         onClick={handleClick}
         className="hover:cursor-pointer"
       />
+      {/*TEST OBJECTS*/}
+      <>{gameContext.state.sipsTaken}</>
+      <>{gameContext.state.sipPower}</>
     </div>
   );
 }

@@ -1,3 +1,17 @@
+export interface Action {
+  type: string;
+  sps?: number;
+  buy?: number;
+  power?: number;
+}
+
+export interface Istate {
+  sips: number;
+  sipsTaken: number;
+  sipPower: number;
+  sps: number;
+}
+
 export interface IUpgrade {
   [key: string]: UpgradeType;
 }

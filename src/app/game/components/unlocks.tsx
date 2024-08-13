@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { GameContext, GameContextType } from "./game";
 import { IBonus, UnlockType } from "./gametypes";
+import { Unlock } from "./unlock";
 
 export default function Unlocks() {
   const gameContext = useContext(GameContext);
@@ -16,93 +17,95 @@ export default function Unlocks() {
           gameContext.unlockList[key].Condition
         )[0];
         //condition is formatted as ["Upgrade Name","Upgrade Amount"]
-        let upgradeKey = condition[0];
-        let upgradeAmount = condition[1];
+        let unlockKey = condition[0];
+        let unlockAmount = condition[1];
 
-        //if condition object is satisfied,and the unlock hasnt been bought render button
-        if (
-          gameContext.upgradeList[upgradeKey].Amount >= upgradeAmount &&
-          !gameContext.unlockList[key].Bought
-        ) {
-          return (
-            <Unlock
-              title={key}
-              unlock={gameContext.unlockList[key]}
-              index={index}
-              key={index}
-            />
-          );
+        //if unlock refers to an upgrade
+        if (Object.keys(gameContext.upgradeList).includes(unlockKey)) {
+          //if condition object is satisfied,and the unlock hasnt been bought render button
+          if (
+            gameContext.upgradeList[unlockKey].Amount >= unlockAmount &&
+            !gameContext.unlockList[key].Bought
+          ) {
+            return (
+              <Unlock
+                title={key}
+                unlock={gameContext.unlockList[key]}
+                index={index}
+                key={index}
+              />
+            );
+          }
+          //if unlock refers to a state variable
+        } else if (Object.keys(gameContext.state).includes(unlockKey)) {
+          //needed switch case for reducer object
+          console.log(unlockKey);
+          switch (unlockKey) {
+            case "sipsTaken":
+              if (
+                gameContext.state.sipsTaken >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
+            case "sips":
+              if (
+                gameContext.state.sips >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
+            case "sipPower":
+              if (
+                gameContext.state.sipPower >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
+            case "sps":
+              if (
+                gameContext.state.sps >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
+            default:
+              break;
+          }
         }
       })}
     </div>
   );
-}
-
-export function Unlock(props: {
-  title: string;
-  unlock: UnlockType;
-  index: number;
-}) {
-  const [buy, setBuy] = useState<boolean>(false);
-  const gameContext = useContext(GameContext);
-
-  //Handles purchase of unlocks
-  const handleClick = () => {
-    let unlocks = gameContext.unlockList;
-    //might be useless
-    unlocks[props.title].Bought = true;
-
-    gameContext.setUnlockList(unlocks);
-    gameContext.dispatch({ type: "BUY", buy: props.unlock.Cost });
-    BonusCalculator(props.unlock.Bonus, gameContext);
-  };
-
-  //renders the buy button if you can afford it
-  useEffect(() => {
-    if (gameContext.state.sips >= props.unlock.Cost) {
-      setBuy(true);
-    } else {
-      setBuy(false);
-    }
-  }, [gameContext.state.sips, props.unlock.Cost]);
-
-  return (
-    <>
-      {buy ? (
-        <div
-          className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer"
-          onClick={handleClick}
-        ></div>
-      ) : (
-        <div className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer opacity-50"></div>
-      )}
-    </>
-  );
-}
-
-function BonusCalculator(bonus: IBonus, gameContext: GameContextType) {
-  //if bonus
-  if (Object.keys(gameContext.upgradeList).includes(bonus.key)) {
-    let upgrades = gameContext.upgradeList;
-    const calculator = Operator(bonus.operator);
-    upgrades[bonus.key].SPS = calculator(upgrades[bonus.key].SPS, bonus.value);
-    gameContext.setUpgradeList(upgrades);
-  }
-}
-
-function Operator(operator: string) {
-  switch (operator) {
-    case "*":
-      return (a: number, b: number) => {
-        return a * b;
-      };
-    case "+":
-      return (a: number, b: number) => {
-        return a + b;
-      };
-    default:
-      return (a: number, b: number) => {
-        return a;
-      };
-  }
 }
