@@ -13,7 +13,7 @@ import { useFrameTime } from "./gameloop";
 import { IUnlock, IUpgrade } from "./gametypes";
 
 //setup Main context for Game
-interface GameContextType {
+export interface GameContextType {
   state: Istate;
   dispatch: React.Dispatch<Action>;
   upgradeList: IUpgrade;
@@ -99,7 +99,7 @@ export default function Game() {
     for (const upgrade in upgradeList) {
       if (Object.prototype.hasOwnProperty.call(upgradeList, upgrade)) {
         const element = upgradeList[upgrade];
-        sps += element.Amount * element.SPS;
+        sps += element.Amount * (element.SPS * element.Multiplier);
       }
     }
     //send SPS to dispatch
@@ -135,52 +135,58 @@ const UpgradeOBJ: IUpgrade = {
   // Unlocks:
   // Fragmented sips
   // Quantam Frat (compounding)
-  "Quantum Sip": { Amount: 0, initCost: 10, SPS: 0.1 },
+  "Quantum Sip": { Amount: 0, initCost: 10, SPS: 0.1, Multiplier: 1 },
   //Every Friend you buy invites a friend over to your house who will help you drink beers
 
   // Unlocks:
   // Better Friends (static)
-  Friend: { Amount: 0, initCost: 100, SPS: 1 },
+  Friend: { Amount: 0, initCost: 100, SPS: 1, Multiplier: 1 },
   //Each Drill creates a whole in the can that beer slowly leaks out of
 
   // Unlocks:
   // Bigger Bits (static)
-  Drill: { Amount: 0, initCost: 1000, SPS: 7.5 },
+  Drill: { Amount: 0, initCost: 1000, SPS: 7.5, Multiplier: 1 },
 
-  Next: { Amount: 0, initCost: 11000, SPS: 12 },
+  Next: { Amount: 0, initCost: 11000, SPS: 12, Multiplier: 1 },
 
-  Next2: { Amount: 0, initCost: 120000, SPS: 25 },
+  Next2: { Amount: 0, initCost: 120000, SPS: 25, Multiplier: 1 },
 };
 
+//TODO Fix bonus to effect dynamic objects
 const UnlockOBJ: IUnlock = {
   "Fragmented sips": {
     Desc: "Splits all your Quantum sips in half, doubling their effectiveness",
     Cost: 100,
     Condition: { "Quantum Sip": 10 },
     Bought: false,
+    Bonus: { key: "Quantum Sip", operator: "*", value: 2 },
   },
   "More Fragmented sips": {
     Desc: "Splits all your Fragmented sips in half, doubling their effectiveness",
     Cost: 250,
     Condition: { "Quantum Sip": 25 },
     Bought: false,
+    Bonus: { key: "Quantum Sip", operator: "*", value: 2 },
   },
   "Even More Fragmented sips": {
     Desc: "Splits all your Fragmented sips in half, doubling their effectiveness",
     Cost: 500,
     Condition: { "Quantum Sip": 50 },
     Bought: false,
+    Bonus: { key: "Quantum Sip", operator: "*", value: 2 },
   },
   "Better Friends": {
     Desc: "You scold your friends into drinking more, Makes them sip twice as fast",
     Cost: 1000,
     Condition: { Friend: 10 },
     Bought: false,
+    Bonus: { key: "Friend", operator: "*", value: 2 },
   },
   "Bigger Bits": {
     Desc: "You order larger drill bits to make bigger holes, doubles the size of holes",
     Cost: 12000,
     Condition: { Drill: 10 },
     Bought: false,
+    Bonus: { key: "Drill", operator: "*", value: 2 },
   },
 };

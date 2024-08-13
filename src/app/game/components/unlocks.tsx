@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { GameContext } from "./game";
-import { UnlockType } from "./gametypes";
+import { GameContext, GameContextType } from "./game";
+import { IBonus, UnlockType } from "./gametypes";
 
 export default function Unlocks() {
   const gameContext = useContext(GameContext);
@@ -46,14 +46,18 @@ export function Unlock(props: {
   const [buy, setBuy] = useState<boolean>(false);
   const gameContext = useContext(GameContext);
 
-  //Handles purchase of upgrades
+  //Handles purchase of unlocks
   const handleClick = () => {
     let unlocks = gameContext.unlockList;
+    //might be useless
     unlocks[props.title].Bought = true;
+
     gameContext.setUnlockList(unlocks);
     gameContext.dispatch({ type: "BUY", buy: props.unlock.Cost });
+    BonusCalculator(props.unlock.Bonus, gameContext);
   };
 
+  //renders the buy button if you can afford it
   useEffect(() => {
     if (gameContext.state.sips >= props.unlock.Cost) {
       setBuy(true);
@@ -74,4 +78,30 @@ export function Unlock(props: {
       )}
     </>
   );
+}
+
+function BonusCalculator(bonus: IBonus, gameContext: GameContextType) {
+  //if bonus
+  if (Object.keys(gameContext.upgradeList).includes(bonus.key)) {
+    let upgrades = gameContext.upgradeList;
+    const calculator = Operator(bonus.operator);
+    upgrades[bonus.key].Multiplier = calculator(
+      upgrades[bonus.key].Multiplier,
+      bonus.value
+    );
+    gameContext.setUpgradeList(upgrades);
+  }
+}
+
+function Operator(operator: string) {
+  switch (operator) {
+    case "*":
+      return (a: number, b: number) => {
+        return a * b;
+      };
+    default:
+      return (a: number, b: number) => {
+        return a;
+      };
+  }
 }
