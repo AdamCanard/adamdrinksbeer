@@ -6,14 +6,22 @@ export default function Upgrades() {
   //Converts upgrade list to Upgrade components
   return (
     <div className="flex flex-col w-full h-2/3">
-      {gameContext.upgradeList.map((upgrade, index) => {
-        return <Upgrade upgrade={upgrade} index={index} key={index} />;
+      {Object.keys(gameContext.upgradeList).map((key, index) => {
+        return (
+          <Upgrade
+            title={key}
+            upgrade={gameContext.upgradeList[key]}
+            key={index}
+          />
+        );
       })}
     </div>
   );
 }
 
-export function Upgrade(props: { upgrade: UpgradeType; index: number }) {
+// .map((upgrade, index)
+
+export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
   const [cost, setCost] = useState<number>(0);
   const [buy, setBuy] = useState<Boolean>(false);
   const gameContext = useContext(GameContext);
@@ -21,7 +29,7 @@ export function Upgrade(props: { upgrade: UpgradeType; index: number }) {
   //Handles purchase of upgrades
   const handleClick = () => {
     let upgrades = gameContext.upgradeList;
-    upgrades[props.index].Amount += 1;
+    upgrades[props.title].Amount += 1;
     gameContext.setUpgradeList(upgrades);
     gameContext.dispatch({ type: "BUY", buy: cost });
   };
@@ -44,14 +52,14 @@ export function Upgrade(props: { upgrade: UpgradeType; index: number }) {
 
   const cheat = () => {
     let upgrades = gameContext.upgradeList;
-    upgrades[props.index].Amount += 1;
+    upgrades[props.title].Amount += 1;
     gameContext.setUpgradeList(upgrades);
   };
 
   return (
     <div className="grid grid-flow-col grid-cols-5 w-full h-12 border-2 border-black items-center pl-1 justify-start">
       <div className="w-10 h-10 bg-black" onClick={cheat}></div>
-      <div className="col-span-2">{props.upgrade.Title}</div>
+      <div className="col-span-2">{props.title}</div>
       <div className="">{props.upgrade.Amount}</div>
       {/* disables onClick if you cant afford */}
       {buy ? (
