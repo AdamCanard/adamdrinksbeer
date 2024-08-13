@@ -1,5 +1,6 @@
-import { useContext, useEffect } from "react";
-import { GameContext, UnlockType } from "./game";
+import { useContext } from "react";
+import { GameContext } from "./game";
+import { UnlockType } from "./gametypes";
 
 export default function Unlocks() {
   const gameContext = useContext(GameContext);

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { GameContext, UpgradeType } from "./game";
+import { GameContext } from "./game";
+import { UpgradeType } from "./gametypes";
 
 export default function Upgrades() {
   const gameContext = useContext(GameContext);

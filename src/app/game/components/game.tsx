@@ -10,6 +10,7 @@ import Battleground from "./battleground";
 import Clicker from "./clicker";
 import Shop from "./shop";
 import { useFrameTime } from "./gameloop";
+import { Action, Istate, IUnlock, IUpgrade } from "./gametypes";
 
 //setup Main context for Game
 interface GameContextType {
@@ -25,40 +26,6 @@ interface GameContextType {
 export const GameContext = createContext<GameContextType>(
   {} as GameContextType
 );
-
-export interface IUpgrade {
-  [key: string]: UpgradeType;
-}
-
-export interface UpgradeType {
-  Amount: number;
-  initCost: number;
-  SPS: number;
-}
-
-export interface IUnlock {
-  [key: string]: UnlockType;
-}
-
-export interface ICondition {
-  [key: string]: number;
-}
-
-export interface UnlockType {
-  Desc: string;
-  Condition: ICondition;
-}
-
-export interface Action {
-  type: string;
-  sps?: number;
-  buy?: number;
-}
-
-export interface Istate {
-  sips: number;
-  sps: number;
-}
 
 //define reducer for game mechanics
 function reducer(state: Istate, action: Action) {
