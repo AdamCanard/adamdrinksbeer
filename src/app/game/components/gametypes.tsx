@@ -6,7 +6,6 @@ export interface UpgradeType {
   Amount: number;
   initCost: number;
   SPS: number;
-  Multiplier: number;
 }
 
 export interface IUnlock {

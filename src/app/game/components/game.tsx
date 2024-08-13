@@ -99,7 +99,7 @@ export default function Game() {
     for (const upgrade in upgradeList) {
       if (Object.prototype.hasOwnProperty.call(upgradeList, upgrade)) {
         const element = upgradeList[upgrade];
-        sps += element.Amount * (element.SPS * element.Multiplier);
+        sps += element.Amount * element.SPS;
       }
     }
     //send SPS to dispatch
@@ -135,21 +135,21 @@ const UpgradeOBJ: IUpgrade = {
   // Unlocks:
   // Fragmented sips
   // Quantam Frat (compounding)
-  "Quantum Sip": { Amount: 0, initCost: 10, SPS: 0.1, Multiplier: 1 },
+  "Quantum Sip": { Amount: 0, initCost: 10, SPS: 0.1 },
   //Every Friend you buy invites a friend over to your house who will help you drink beers
 
   // Unlocks:
   // Better Friends (static)
-  Friend: { Amount: 0, initCost: 100, SPS: 1, Multiplier: 1 },
+  Friend: { Amount: 0, initCost: 100, SPS: 1 },
   //Each Drill creates a whole in the can that beer slowly leaks out of
 
   // Unlocks:
   // Bigger Bits (static)
-  Drill: { Amount: 0, initCost: 1000, SPS: 7.5, Multiplier: 1 },
+  Drill: { Amount: 0, initCost: 1000, SPS: 7.5 },
 
-  Next: { Amount: 0, initCost: 11000, SPS: 12, Multiplier: 1 },
+  Next: { Amount: 0, initCost: 11000, SPS: 12 },
 
-  Next2: { Amount: 0, initCost: 120000, SPS: 25, Multiplier: 1 },
+  Next2: { Amount: 0, initCost: 120000, SPS: 25 },
 };
 
 //TODO Fix bonus to effect dynamic objects

@@ -61,6 +61,7 @@ export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
     <div className="grid grid-flow-col grid-cols-5 w-full h-12 border-2 border-black items-center pl-1 justify-start">
       <div className="w-10 h-10 bg-black" onClick={cheat}></div>
       <div className="col-span-2">{props.title}</div>
+      <div className="">{props.upgrade.SPS}</div>
       <div className="">{props.upgrade.Amount}</div>
       {/* disables onClick if you cant afford */}
       {buy ? (

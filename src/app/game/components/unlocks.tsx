@@ -85,10 +85,7 @@ function BonusCalculator(bonus: IBonus, gameContext: GameContextType) {
   if (Object.keys(gameContext.upgradeList).includes(bonus.key)) {
     let upgrades = gameContext.upgradeList;
     const calculator = Operator(bonus.operator);
-    upgrades[bonus.key].Multiplier = calculator(
-      upgrades[bonus.key].Multiplier,
-      bonus.value
-    );
+    upgrades[bonus.key].SPS = calculator(upgrades[bonus.key].SPS, bonus.value);
     gameContext.setUpgradeList(upgrades);
   }
 }
@@ -98,6 +95,10 @@ function Operator(operator: string) {
     case "*":
       return (a: number, b: number) => {
         return a * b;
+      };
+    case "+":
+      return (a: number, b: number) => {
+        return a + b;
       };
     default:
       return (a: number, b: number) => {
