@@ -39,7 +39,6 @@ export function Unlock(props: {
           onClick={handleClick}
         >
           {props.unlock.Cost}
-          {props.unlock.Desc}
         </div>
       ) : (
         <div className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer opacity-50">

@@ -8,8 +8,10 @@ export interface Action {
 export interface Istate {
   sips: number;
   sipsTaken: number;
+  totalSips: number;
   sipPower: number;
   sps: number;
+  beer: number;
 }
 
 export interface IUpgrade {

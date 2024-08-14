@@ -2,6 +2,7 @@
 import {
   createContext,
   SetStateAction,
+  useContext,
   useEffect,
   useReducer,
   useState,
@@ -13,6 +14,7 @@ import { useFrameTime } from "./gameloop";
 import { Action, Istate, IUnlock, IUpgrade } from "./gametypes";
 import { UnlockOBJ, UpgradeOBJ } from "./gameobjects";
 import { reducer } from "./reducer";
+import { stat } from "fs";
 
 //setup Main context for Game
 export interface GameContextType {
@@ -30,7 +32,14 @@ export const GameContext = createContext<GameContextType>(
 );
 
 //Starting game state
-const initState: Istate = { sips: 0, sipPower: 1, sipsTaken: 0, sps: 0 };
+const initState: Istate = {
+  sips: 0,
+  sipPower: 1,
+  totalSips: 0,
+  sipsTaken: 0,
+  sps: 0,
+  beer: 0,
+};
 
 export default function Game() {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -48,9 +57,17 @@ export default function Game() {
         sps += element.Amount * element.SPS;
       }
     }
+
     //send SPS to dispatch
     dispatch({ type: "LOOP", sps: sps });
   }, [frameTime, upgradeList]);
+
+  useEffect(() => {
+    let beerSipTotal = Math.pow(1000, 1 + state.beer / 10);
+    if (beerSipTotal <= state.totalSips) {
+      dispatch({ type: "BEER" });
+    }
+  }, [state.beer, state.totalSips]);
 
   return (
     <div className="flex flex-row w-full h-screen">

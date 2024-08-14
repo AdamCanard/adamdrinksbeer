@@ -39,8 +39,37 @@ export default function Unlocks() {
           //if unlock refers to a state variable
         } else if (Object.keys(gameContext.state).includes(unlockKey)) {
           //needed switch case for reducer object
-          console.log(unlockKey);
           switch (unlockKey) {
+            case "beer":
+              if (
+                gameContext.state.beer >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
+            case "totalSips":
+              if (
+                gameContext.state.totalSips >= unlockAmount &&
+                !gameContext.unlockList[key].Bought
+              ) {
+                return (
+                  <Unlock
+                    title={key}
+                    unlock={gameContext.unlockList[key]}
+                    index={index}
+                    key={index}
+                  />
+                );
+              }
+              break;
             case "sipsTaken":
               if (
                 gameContext.state.sipsTaken >= unlockAmount &&
