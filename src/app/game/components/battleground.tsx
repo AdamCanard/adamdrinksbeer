@@ -11,6 +11,10 @@ import Quantum8 from "../../../../public/QuantumFrames/QuantumFrame 8.png";
 import Quantum9 from "../../../../public/QuantumFrames/QuantumFrame 9.png";
 import Quantum10 from "../../../../public/QuantumFrames/QuantumFrame 10.png";
 
+import Friend1 from "../../../../public/Friends Frames/FriendsFrame 1.png";
+import Friend2 from "../../../../public/Friends Frames/FriendsFrame 2.png";
+import Friend3 from "../../../../public/Friends Frames/FriendsFrame 3.png";
+
 import Image from "next/image";
 import { UpgradeType } from "./gametypes";
 
@@ -18,7 +22,7 @@ export default function Battleground() {
   const gameContext = useContext(GameContext);
   //TODO based on unlocks
   return (
-    <div className="grid grid-flow-row-dense grid-cols-10 grid-rows-10 w-1/2 h-full bg-blue-500 outline-2 outline-black">
+    <div className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-blue-500 outline-2 outline-black">
       {Object.keys(gameContext.upgradeList).map((key, index) => {
         if (gameContext.upgradeList[key].Amount >= 1)
           return GameList(key, index, gameContext.upgradeList[key]);
@@ -27,14 +31,12 @@ export default function Battleground() {
   );
 }
 
-export interface IGame {
-  [key: string]: JSX.Element;
-}
-
 function GameList(key: string, index: number, upgrade: UpgradeType) {
   switch (key) {
     case "Quantum Sip":
       return <QuantumSip upgrade={upgrade} key={index} />;
+    case "Friend":
+      return <Friend upgrade={upgrade} key={index} />;
     default:
       break;
   }
@@ -67,7 +69,26 @@ export function QuantumSip(props: { upgrade: UpgradeType }) {
       width={256}
       height={256}
       alt="battleground Image"
-      className="border-2 border-black col-span-2 row-span-2"
+      className=" col-span-1 row-span-1"
+    />
+  );
+}
+
+const FriendFrames = [Friend1, Friend2, Friend3];
+
+export function Friend(props: { upgrade: UpgradeType }) {
+  let FriendFrame = props.upgrade.Amount;
+  if (FriendFrame >= 4) {
+    FriendFrame = 3;
+  }
+
+  return (
+    <Image
+      src={FriendFrames[FriendFrame - 1]}
+      width={512}
+      height={256}
+      alt="battleground Image"
+      className=" col-span-2 row-span-1"
     />
   );
 }
