@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { GameContext } from "./game";
 import { UpgradeType } from "./gametypes";
+import Image, { StaticImageData } from "next/image";
 
 export default function Upgrades() {
   const gameContext = useContext(GameContext);
@@ -20,8 +21,6 @@ export default function Upgrades() {
   );
 }
 
-// .map((upgrade, index)
-
 export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
   const [cost, setCost] = useState<number>(0);
   const [buy, setBuy] = useState<boolean>(false);
@@ -38,7 +37,7 @@ export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
   //Calculates the cost of the next upgrade
   useEffect(() => {
     setCost(
-      Math.round(props.upgrade.initCost * Math.pow(1.2, props.upgrade.Amount))
+      Math.round(props.upgrade.initCost * Math.pow(1.15, props.upgrade.Amount))
     );
   }, [props.upgrade.Amount, props.upgrade.initCost]);
 
@@ -57,23 +56,33 @@ export function Upgrade(props: { title: string; upgrade: UpgradeType }) {
     gameContext.setUpgradeList(upgrades);
   };
 
+  //console.log(Logos[props.title]);
   return (
-    <div className="grid grid-flow-col grid-cols-5 w-full h-12 border-2 border-black items-center pl-1 justify-start">
-      <div className="w-10 h-10 bg-black" onClick={cheat}></div>
+    <div className="bg-[url('../../public/UpgradeBackground.png')] grid grid-flow-col grid-cols-5 w-full h-16  items-center justify-center">
+      <Image
+        src={
+          props.upgrade.Logos[Math.floor(props.upgrade.Amount / 10)] ||
+          props.upgrade.Logos[props.upgrade.Logos.length - 1]
+        }
+        width={64}
+        height={64}
+        alt="battleground Image"
+        onClick={cheat}
+      />
+
       <div className="col-span-2">{props.title}</div>
-      <div className="">{props.upgrade.SPS}</div>
       <div className="">{props.upgrade.Amount}</div>
       {/* disables onClick if you cant afford */}
       {buy ? (
         <button
-          className="w-full h-full border-2 border-black hover:cursor-pointer"
+          className="w-16 h-16 bg-[url('../../public/CanBuyBackground.png')] hover:cursor-pointer"
           onClick={handleClick}
         >
           {cost}
           {" sips"}
         </button>
       ) : (
-        <button className="w-full h-full border-2 border-black opacity-50">
+        <button className="w-16 h-16 bg-[url('../../public/CantBuyBackground.png')] hover:cursor-default">
           {cost}
           {" sips"}
         </button>

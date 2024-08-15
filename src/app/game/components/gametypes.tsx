@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export interface Action {
   type: string;
   sps?: number;
@@ -22,6 +24,7 @@ export interface UpgradeType {
   Amount: number;
   initCost: number;
   SPS: number;
+  Logos: StaticImageData[];
 }
 
 export interface IUnlock {

@@ -1,5 +1,27 @@
 import { IUnlock, IUpgrade } from "./gametypes";
+import { StaticImageData } from "next/image";
 
+import QuantumLogo1 from "../../../../public/QuantumLogoFrames/QuantumLogo1.png";
+import QuantumLogo2 from "../../../../public/QuantumLogoFrames/QuantumLogo2.png";
+import QuantumLogo3 from "../../../../public/QuantumLogoFrames/QuantumLogo3.png";
+import QuantumLogo4 from "../../../../public/QuantumLogoFrames/QuantumLogo4.png";
+import QuantumLogo5 from "../../../../public/QuantumLogoFrames/QuantumLogo5.png";
+import QuantumLogo6 from "../../../../public/QuantumLogoFrames/QuantumLogo6.png";
+import QuantumLogo7 from "../../../../public/QuantumLogoFrames/QuantumLogo7.png";
+import QuantumLogo8 from "../../../../public/QuantumLogoFrames/QuantumLogo8.png";
+
+const Empty: StaticImageData[] = [];
+
+const QuantumLogoFrames: StaticImageData[] = [
+  QuantumLogo1,
+  QuantumLogo2,
+  QuantumLogo3,
+  QuantumLogo4,
+  QuantumLogo5,
+  QuantumLogo6,
+  QuantumLogo7,
+  QuantumLogo8,
+];
 //move to DB eventually
 //Passive upgrades, Contribute to SPS
 export const UpgradeOBJ: IUpgrade = {
@@ -11,30 +33,35 @@ export const UpgradeOBJ: IUpgrade = {
   // More Fragmented Sips x2
   // Even More Fragmented Sips x2
   // Quantam Frat (compounding)
-  "Quantum Sip": { Amount: 0, initCost: 10, SPS: 0.1 },
+  "Quantum Sip": {
+    Amount: 0,
+    initCost: 10,
+    SPS: 0.1,
+    Logos: QuantumLogoFrames,
+  },
   //Every Friend you buy invites a friend over to your house who will help you drink beers
 
   // Unlocks:
   // Better Friends x2
   // Best Friends x2
   // Outsourced Friends x2
-  Friend: { Amount: 0, initCost: 100, SPS: 1 },
+  Friend: { Amount: 0, initCost: 100, SPS: 1, Logos: Empty },
   //Each Drill creates a whole in the can that beer slowly leaks out of
 
   // Unlocks:
   // Bigger Bits x2
   // More Torque x2
   // Tougher Hands x2
-  Drill: { Amount: 0, initCost: 1000, SPS: 7.5 },
+  Drill: { Amount: 0, initCost: 1000, SPS: 7.5, Logos: Empty },
   //With new age technology sips can be aquired through printing! Although the market is heavily controlled
 
   // Unlocks:
   // Sips in Colour x2
   // Bootleg Ink x2
   // Counterfit Sips x2
-  "Sip Printer": { Amount: 0, initCost: 11000, SPS: 12 },
+  "Sip Printer": { Amount: 0, initCost: 11000, SPS: 12, Logos: Empty },
 
-  Next2: { Amount: 0, initCost: 120000, SPS: 25 },
+  Next2: { Amount: 0, initCost: 120000, SPS: 25, Logos: Empty },
 };
 
 //find a way to organize unlocks (probably cost)
