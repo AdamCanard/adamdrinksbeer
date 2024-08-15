@@ -15,6 +15,7 @@ export function Unlock(props: {
   const handleClick = () => {
     let unlocks = gameContext.unlockList;
     //might be useless
+    //Is not useless! used for non SPS unlocks like the tipso meter
     unlocks[props.title].Bought = true;
 
     gameContext.setUnlockList(unlocks);

@@ -9,8 +9,12 @@ export default function Beer() {
   const handleClick = () => {
     gameContext.dispatch({ type: "CLICK" });
   };
+
   return (
-    <div className="flex w-full h-4/6 justify-center items-center border-2 border-black">
+    <div className="flex flex-col w-full h-4/6 justify-start items-center">
+      {/* {gameContext.unlockList["Tipso Meter"].Bought && <TipsoMeter />} */}
+      <TipsoMeter />
+
       <Image
         width={200}
         height={400}
@@ -22,6 +26,21 @@ export default function Beer() {
       {/*TEST OBJECTS*/}
       <>{gameContext.state.sipsTaken}</>
       <>{gameContext.state.sipPower}</>
+    </div>
+  );
+}
+
+export function TipsoMeter() {
+  const gameContext = useContext(GameContext);
+  return (
+    <div className="flex flex-col justify-end w-full h-24 bg-white border-2 border-black">
+      <div
+        style={{
+          width: "100%",
+          height: gameContext.state.tipsoLevel + "%",
+          backgroundColor: "red",
+        }}
+      ></div>
     </div>
   );
 }

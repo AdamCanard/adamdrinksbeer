@@ -14,7 +14,6 @@ import { useFrameTime } from "./gameloop";
 import { Action, Istate, IUnlock, IUpgrade } from "./gametypes";
 import { UnlockOBJ, UpgradeOBJ } from "./gameobjects";
 import { reducer } from "./reducer";
-import { stat } from "fs";
 
 //setup Main context for Game
 export interface GameContextType {
@@ -36,6 +35,7 @@ const initState: Istate = {
   sips: 0,
   sipPower: 1,
   totalSips: 0,
+  tipsoLevel: 0,
   sipsTaken: 0,
   sps: 0,
   beer: 0,

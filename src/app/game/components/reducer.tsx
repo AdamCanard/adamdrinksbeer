@@ -6,10 +6,17 @@ export function reducer(state: Istate, action: Action) {
     //runs on each beer click
     //TODO change 1 to "SIP POWER variable"
     case "CLICK":
+      let tipsoIncrease;
+      if (state.tipsoLevel + 3 > 100) {
+        tipsoIncrease = 100 - state.tipsoLevel;
+      } else {
+        tipsoIncrease = 3;
+      }
       return {
         sips: state.sips + state.sipPower,
         sipsTaken: state.sipsTaken + state.sipPower,
         totalSips: state.totalSips + state.sipPower,
+        tipsoLevel: state.tipsoLevel + tipsoIncrease,
         sps: state.sps,
         sipPower: state.sipPower,
         beer: state.beer,
@@ -19,6 +26,7 @@ export function reducer(state: Istate, action: Action) {
         sips: state.sips,
         sipsTaken: state.sipsTaken,
         totalSips: state.totalSips,
+        tipsoLevel: state.tipsoLevel,
         sps: state.sps,
         sipPower: state.sipPower,
         beer: state.beer + 1,
@@ -30,6 +38,7 @@ export function reducer(state: Istate, action: Action) {
           sips: state.sips,
           sipsTaken: state.sipsTaken,
           totalSips: state.totalSips,
+          tipsoLevel: state.tipsoLevel,
           sps: state.sps,
           sipPower: state.sipPower * action.power,
           beer: state.beer,
@@ -42,6 +51,7 @@ export function reducer(state: Istate, action: Action) {
           sips: state.sips - action.buy,
           sipsTaken: state.sipsTaken,
           totalSips: state.totalSips,
+          tipsoLevel: state.tipsoLevel,
           sps: state.sps,
           sipPower: state.sipPower,
           beer: state.beer,
@@ -49,12 +59,29 @@ export function reducer(state: Istate, action: Action) {
       }
     //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
     case "LOOP":
+      let tipsoReduce;
+      if (state.tipsoLevel - 3 < 0) {
+        tipsoReduce = state.tipsoLevel;
+      } else {
+        tipsoReduce = 3;
+      }
       if (action.sps) {
         return {
           sips: state.sips + action.sps,
           sipsTaken: state.sipsTaken,
           totalSips: state.totalSips + action.sps,
+          tipsoLevel: state.tipsoLevel - tipsoReduce,
           sps: action.sps,
+          sipPower: state.sipPower,
+          beer: state.beer,
+        };
+      } else {
+        return {
+          sips: state.sips,
+          sipsTaken: state.sipsTaken,
+          totalSips: state.totalSips,
+          tipsoLevel: state.tipsoLevel - 3,
+          sps: state.sps,
           sipPower: state.sipPower,
           beer: state.beer,
         };

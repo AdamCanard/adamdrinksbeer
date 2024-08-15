@@ -66,6 +66,15 @@ export const UpgradeOBJ: IUpgrade = {
 
 //find a way to organize unlocks (probably cost)
 export const UnlockOBJ: IUnlock = {
+  //Beer unlocks
+  "Tipso Meter": {
+    Desc: "You get an ad for the Tipso Meter! It will give you advantages based on your level of tipsy",
+    Cost: 150,
+    Condition: { beer: 1 },
+    Bought: false,
+    Bonus: { key: "unlock", operator: "Tipso Meter", value: 0 },
+  },
+
   //Sip Unlocks
   "Bigger Sips": {
     Desc: "Aquire a taste for beer, You are now willing to take bigger sips doubling your Sip Power",
