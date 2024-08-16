@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GameContext } from "./game";
 import Image from "next/image";
-import BeerImg from "../../../../public/PBR.png";
+import BeerImg from "../../../../public/BeerDice.png";
 import { TipsoMeter } from "./tipsometer";
 
 export default function Beer() {
@@ -14,13 +14,13 @@ export default function Beer() {
   return (
     <div className="flex flex-col w-full h-4/5 justify-start items-center gap-2">
       <Image
-        id="border"
         width={200}
-        height={300}
+        height={250}
         src={BeerImg}
         alt="Clicking Beer"
         onClick={handleClick}
         className="hover:cursor-pointer"
+        priority={true}
       />
 
       {gameContext.unlockList["Tipso Meter"].Bought && <TipsoMeter />}
