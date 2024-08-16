@@ -2,8 +2,7 @@
 import {
   createContext,
   SetStateAction,
-  useContext,
-  useEffect,
+  useLayoutEffect,
   useReducer,
   useState,
 } from "react";
@@ -48,7 +47,7 @@ export default function Game() {
   const frameTime = useFrameTime();
 
   //main gameloop updates once a second
-  useEffect(() => {
+  useLayoutEffect(() => {
     let sps = 0;
     //Counts all upgrades add their SPS together
     for (const upgrade in upgradeList) {
@@ -62,7 +61,7 @@ export default function Game() {
     dispatch({ type: "LOOP", sps: sps });
   }, [frameTime, upgradeList]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let beerSipTotal = Math.pow(1000, 1 + state.beer / 10);
     if (beerSipTotal <= state.totalSips) {
       dispatch({ type: "BEER" });

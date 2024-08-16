@@ -22,7 +22,10 @@ export default function Battleground() {
   const gameContext = useContext(GameContext);
   //TODO based on unlocks
   return (
-    <div className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-blue-500 outline-2 outline-black">
+    <div
+      id="border"
+      className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-[#bababa] "
+    >
       {Object.keys(gameContext.upgradeList).map((key, index) => {
         if (gameContext.upgradeList[key].Amount >= 1)
           return GameList(key, index, gameContext.upgradeList[key]);

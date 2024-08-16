@@ -22,6 +22,17 @@
   }
 }
 
+#border {
+  border-left: 4px solid #969696;
+  border-top: 4px solid #c8c8c8;
+  border-right: 4px solid #c8c8c8;
+  border-bottom: 4px solid #969696;
+}
+
+div {
+  background-color: #bababa;
+}
+
 html,
 body {
   overflow-y: hidden;

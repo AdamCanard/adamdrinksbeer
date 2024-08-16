@@ -60,6 +60,7 @@ export function reducer(state: Istate, action: Action) {
     //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
     case "LOOP":
       let tipsoReduce;
+
       if (state.tipsoLevel - 3 < 0) {
         tipsoReduce = state.tipsoLevel;
       } else {
@@ -80,7 +81,7 @@ export function reducer(state: Istate, action: Action) {
           sips: state.sips,
           sipsTaken: state.sipsTaken,
           totalSips: state.totalSips,
-          tipsoLevel: state.tipsoLevel - 3,
+          tipsoLevel: state.tipsoLevel - tipsoReduce,
           sps: state.sps,
           sipPower: state.sipPower,
           beer: state.beer,

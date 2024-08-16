@@ -41,9 +41,8 @@ export default function Upgrade(props: {
     gameContext.setUpgradeList(upgrades);
   };
 
-  //console.log(Logos[props.title]);
   return (
-    <div className="bg-[url('../../public/UpgradeBackground.png')] grid grid-flow-col grid-cols-5 w-full h-16  items-center justify-center">
+    <div id="border" className="flex flex-row w-full h-18 items-center">
       <Image
         src={
           props.upgrade.Logos[Math.floor(props.upgrade.Amount / 10)] ||
@@ -55,8 +54,8 @@ export default function Upgrade(props: {
         onClick={cheat}
       />
 
-      <div className="col-span-2">{props.title}</div>
-      <div className="">{props.upgrade.Amount}</div>
+      <div className="w-32">{props.title}</div>
+      <div className="w-8">{props.upgrade.Amount}</div>
       {/* disables onClick if you cant afford */}
       {buy ? (
         <button

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GameContext } from "./game";
 import Image from "next/image";
 import BeerImg from "../../../../public/PBR.png";
+import { TipsoMeter } from "./tipsometer";
 
 export default function Beer() {
   //The clickable beer that adds sips to sip counter
@@ -11,36 +12,18 @@ export default function Beer() {
   };
 
   return (
-    <div className="flex flex-col w-full h-4/6 justify-start items-center">
-      {/* {gameContext.unlockList["Tipso Meter"].Bought && <TipsoMeter />} */}
-      <TipsoMeter />
-
+    <div className="flex flex-col w-full h-4/5 justify-start items-center gap-2">
       <Image
+        id="border"
         width={200}
-        height={400}
+        height={300}
         src={BeerImg}
         alt="Clicking Beer"
         onClick={handleClick}
         className="hover:cursor-pointer"
       />
-      {/*TEST OBJECTS*/}
-      <>{gameContext.state.sipsTaken}</>
-      <>{gameContext.state.sipPower}</>
-    </div>
-  );
-}
 
-export function TipsoMeter() {
-  const gameContext = useContext(GameContext);
-  return (
-    <div className="flex flex-col justify-end w-full h-24 bg-white border-2 border-black">
-      <div
-        style={{
-          width: "100%",
-          height: gameContext.state.tipsoLevel + "%",
-          backgroundColor: "red",
-        }}
-      ></div>
+      {gameContext.unlockList["Tipso Meter"].Bought && <TipsoMeter />}
     </div>
   );
 }

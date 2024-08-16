@@ -4,7 +4,7 @@ import Unlocks from "./unlocks";
 export default function Shop() {
   //Right side of the game
   return (
-    <div className="w-1/4 h-full bg-orange-500 outline-2 outline-black">
+    <div id="border" className="w-1/4 h-full bg-[#bababa] p-2 gap-2">
       <Upgrades />
       <Unlocks />
     </div>
