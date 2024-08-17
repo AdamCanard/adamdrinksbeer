@@ -1,6 +1,9 @@
 import { IUnlock, IUpgrade } from "./gametypes";
 import { StaticImageData } from "next/image";
 
+import BeerDice from "../../../../public/BeerDice.png";
+import BeerPong from "../../../../public/BeerPong.png";
+
 import QuantumLogo1 from "../../../../public/QuantumLogoFrames/QuantumLogo1.png";
 import QuantumLogo2 from "../../../../public/QuantumLogoFrames/QuantumLogo2.png";
 import QuantumLogo3 from "../../../../public/QuantumLogoFrames/QuantumLogo3.png";
@@ -22,6 +25,8 @@ const QuantumLogoFrames: StaticImageData[] = [
   QuantumLogo7,
   QuantumLogo8,
 ];
+
+export const Beers: StaticImageData[] = [BeerDice, BeerPong];
 //move to DB eventually
 //Passive upgrades, Contribute to SPS
 export const UpgradeOBJ: IUpgrade = {

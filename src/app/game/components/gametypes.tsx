@@ -10,6 +10,7 @@ export interface Action {
 export interface Istate {
   sips: number;
   tipsoLevel: number;
+
   sipsTaken: number;
   totalSips: number;
   sipPower: number;

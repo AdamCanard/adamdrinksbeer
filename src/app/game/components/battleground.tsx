@@ -69,8 +69,8 @@ export function QuantumSip(props: { upgrade: UpgradeType }) {
   return (
     <Image
       src={QuantumSipFrames[QuantumFrame - 1]}
-      width={256}
-      height={256}
+      width={128}
+      height={128}
       alt="battleground Image"
       className=" col-span-1 row-span-1"
     />
@@ -88,10 +88,10 @@ export function Friend(props: { upgrade: UpgradeType }) {
   return (
     <Image
       src={FriendFrames[FriendFrame - 1]}
-      width={512}
-      height={256}
+      width={256}
+      height={128}
       alt="battleground Image"
-      className=" col-span-2 row-span-1"
+      className="col-span-2 row-span-1"
     />
   );
 }
