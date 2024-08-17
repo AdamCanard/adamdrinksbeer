@@ -13,6 +13,7 @@ import { useFrameTime } from "./gameloop";
 import { Action, Istate, IUnlock, IUpgrade } from "./gametypes";
 import { UnlockOBJ, UpgradeOBJ } from "./gameobjects";
 import { reducer } from "./reducer";
+import { Intoxication } from "./gametypes";
 
 //setup Main context for Game
 export interface GameContextType {
@@ -33,6 +34,7 @@ export const GameContext = createContext<GameContextType>(
 const initState: Istate = {
   sips: 0,
   sipPower: 1,
+  drunkness: Intoxication.sober,
   totalSips: 0,
   tipsoLevel: 0,
   sipsTaken: 0,

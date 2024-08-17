@@ -15,6 +15,7 @@ export function reducer(state: Istate, action: Action) {
       return {
         sips: state.sips + state.sipPower,
         sipsTaken: state.sipsTaken + state.sipPower,
+        drunkness: state.drunkness,
         totalSips: state.totalSips + state.sipPower,
         tipsoLevel: state.tipsoLevel + tipsoIncrease,
         sps: state.sps,
@@ -25,6 +26,7 @@ export function reducer(state: Istate, action: Action) {
       return {
         sips: state.sips,
         sipsTaken: state.sipsTaken,
+        drunkness: state.drunkness,
         totalSips: state.totalSips,
         tipsoLevel: state.tipsoLevel,
         sps: state.sps,
@@ -37,6 +39,7 @@ export function reducer(state: Istate, action: Action) {
         return {
           sips: state.sips,
           sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
           totalSips: state.totalSips,
           tipsoLevel: state.tipsoLevel,
           sps: state.sps,
@@ -50,6 +53,7 @@ export function reducer(state: Istate, action: Action) {
         return {
           sips: state.sips - action.buy,
           sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
           totalSips: state.totalSips,
           tipsoLevel: state.tipsoLevel,
           sps: state.sps,
@@ -70,6 +74,7 @@ export function reducer(state: Istate, action: Action) {
         return {
           sips: state.sips + action.sps,
           sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
           totalSips: state.totalSips + action.sps,
           tipsoLevel: state.tipsoLevel - tipsoReduce,
           sps: action.sps,
@@ -80,6 +85,7 @@ export function reducer(state: Istate, action: Action) {
         return {
           sips: state.sips,
           sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
           totalSips: state.totalSips,
           tipsoLevel: state.tipsoLevel - tipsoReduce,
           sps: state.sps,

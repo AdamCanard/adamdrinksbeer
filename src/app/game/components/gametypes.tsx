@@ -7,10 +7,16 @@ export interface Action {
   power?: number;
 }
 
+export enum Intoxication {
+  sober,
+  tipsy,
+  drunk,
+}
+
 export interface Istate {
   sips: number;
   tipsoLevel: number;
-
+  drunkness: Intoxication;
   sipsTaken: number;
   totalSips: number;
   sipPower: number;

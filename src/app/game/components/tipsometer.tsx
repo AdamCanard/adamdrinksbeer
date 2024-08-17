@@ -21,9 +21,10 @@ import TipsoFrame20 from "../../../../public/TipsoFrames/TipsoMeter 20.png";
 import TipsoFrame21 from "../../../../public/TipsoFrames/TipsoMeter 21.png";
 import TipsoTitle from "../../../../public/TipsoTitle.png";
 import { GameContext } from "./game";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
+import { Intoxication } from "./gametypes";
 
 const TipsoMeterFrames: StaticImageData[] = [
   TipsoFrame1,
@@ -51,6 +52,20 @@ const TipsoMeterFrames: StaticImageData[] = [
 
 export function TipsoMeter() {
   const gameContext = useContext(GameContext);
+
+  useEffect(() => {
+    if (Math.floor(gameContext.state.tipsoLevel / 5) <= 6) {
+      gameContext.state.drunkness = Intoxication.sober;
+    } else if (
+      Math.floor(gameContext.state.tipsoLevel / 5) >= 7 &&
+      Math.floor(gameContext.state.tipsoLevel / 5) <= 13
+    ) {
+      gameContext.state.drunkness = Intoxication.tipsy;
+    } else if (Math.floor(gameContext.state.tipsoLevel / 5) >= 14) {
+      gameContext.state.drunkness = Intoxication.drunk;
+    }
+  }, [gameContext.state]);
+
   return (
     <div id="border" className="flex flex-col justify-end w-full h-26">
       <Image src={TipsoTitle} width={360} height={16} alt="TipsoTitle" />
