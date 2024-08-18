@@ -66,7 +66,11 @@ export const UpgradeOBJ: IUpgrade = {
   // Counterfit Sips x2
   "Sip Printer": { Amount: 0, initCost: 11000, SPS: 12, Logos: Empty },
 
-  Next2: { Amount: 0, initCost: 120000, SPS: 25, Logos: Empty },
+  // Unlocks:
+  // Sip Fertalizer x2
+  // Hydroponic Sips x2
+  // Import Sip Seeds x2
+  "Sip Farm ": { Amount: 0, initCost: 120000, SPS: 25, Logos: Empty },
 };
 
 //find a way to organize unlocks (probably cost)
@@ -193,5 +197,28 @@ export const UnlockOBJ: IUnlock = {
     Condition: { "Sip Printer": 50 },
     Bought: false,
     Bonus: { key: "Sip Printer", operator: "*", value: 2 },
+  },
+
+  //Sip Farm Unlocks
+  "Sip Fertalizer": {
+    Desc: "Buy some Sip Fertalizer to double the fruitfulness of your sip fruits",
+    Cost: 200000,
+    Condition: { "Sip Farm": 10 },
+    Bought: false,
+    Bonus: { key: "Sip Farm", operator: "*", value: 2 },
+  },
+  "Hydroponic Sips": {
+    Desc: "Set up Hydroponics for Sip Plant automation, your sips grow twice as fast",
+    Cost: 500000,
+    Condition: { "Sip Farm": 25 },
+    Bought: false,
+    Bonus: { key: "Sip Farm", operator: "*", value: 2 },
+  },
+  "Import Sip Seeds": {
+    Desc: "Start Importing exotic Sip Seeds to produce Sip fruits of double value",
+    Cost: 800000,
+    Condition: { "Sip Farm": 50 },
+    Bought: false,
+    Bonus: { key: "Sip Farm", operator: "*", value: 2 },
   },
 };
