@@ -28,6 +28,10 @@ export interface IUpgrade {
   [key: string]: UpgradeType;
 }
 
+export interface ICard {
+  [key: string]: StaticImageData;
+}
+
 export interface UpgradeType {
   Amount: number;
   initCost: number;

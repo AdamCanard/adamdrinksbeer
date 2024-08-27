@@ -9,6 +9,7 @@ import {
 import { GameContext } from "./game";
 
 import { Deck } from "./gameobjects";
+import CardBack from "../../../../public/Cards/CardBack.png";
 
 import Quantum1 from "../../../../public/QuantumFrames/QuantumFrame 1.png";
 import Quantum2 from "../../../../public/QuantumFrames/QuantumFrame 2.png";
@@ -26,23 +27,22 @@ import Friend2 from "../../../../public/Friends Frames/FriendsFrame 2.png";
 import Friend3 from "../../../../public/Friends Frames/FriendsFrame 3.png";
 
 import Image from "next/image";
-import { UpgradeType } from "./gametypes";
+import { ICard, UpgradeType } from "./gametypes";
 
 export default function Battleground() {
   const gameContext = useContext(GameContext);
   //TODO based on unlocks
   return (
-    <BlackJack />
-    // <div
-    //   id="border"
-    //   className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-[#bababa] "
-    // >
-
-    //   {Object.keys(gameContext.upgradeList).map((key, index) => {
-    //     if (gameContext.upgradeList[key].Amount >= 1)
-    //       return GameList(key, index, gameContext.upgradeList[key]);
-    //   })}
-    // </div>
+    <div
+      id="border"
+      className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-[#bababa] "
+    >
+      <BlackJack />
+      {/* {Object.keys(gameContext.upgradeList).map((key, index) => {
+        if (gameContext.upgradeList[key].Amount >= 1)
+          return GameList(key, index, gameContext.upgradeList[key]);
+      })} */}
+    </div>
   );
 }
 
@@ -109,7 +109,8 @@ export function Friend(props: { upgrade: UpgradeType }) {
 }
 
 export interface IBlackJackContext {
-  Deck: string[];
+  DeckKeys: string[];
+  setDeckKeys: React.Dispatch<SetStateAction<string[]>>;
   player: string[];
   setPlayer: React.Dispatch<SetStateAction<string[]>>;
   dealer: string[];
@@ -124,15 +125,16 @@ export const BlackJackContext = createContext<IBlackJackContext>(
 
 export function BlackJack() {
   //create state for deck
+  const [DeckKeys, setDeckKeys] = useState<string[]>(Object.keys(Deck));
   const [dealer, setDealer] = useState<string[]>([]);
   const [player, setPlayer] = useState<string[]>([]);
   const [gameTrigger, setGameTrigger] = useState<boolean>(false);
   function StartRound() {
-    Shuffle(Deck);
-    Draw(Deck, dealer, setDealer);
-    Draw(Deck, player, setPlayer);
-    Draw(Deck, dealer, setDealer);
-    Draw(Deck, player, setPlayer);
+    Shuffle(DeckKeys, setDeckKeys);
+    Draw(DeckKeys, setDeckKeys, dealer, setDealer);
+    Draw(DeckKeys, setDeckKeys, player, setPlayer);
+    Draw(DeckKeys, setDeckKeys, dealer, setDealer);
+    Draw(DeckKeys, setDeckKeys, player, setPlayer);
     setGameTrigger(true);
   }
   return (
@@ -148,7 +150,15 @@ export function BlackJack() {
         </>
       ) : (
         <BlackJackContext.Provider
-          value={{ Deck, player, setPlayer, dealer, setDealer, setGameTrigger }}
+          value={{
+            DeckKeys,
+            setDeckKeys,
+            player,
+            setPlayer,
+            dealer,
+            setDealer,
+            setGameTrigger,
+          }}
         >
           <BlackJackGame />
         </BlackJackContext.Provider>
@@ -163,9 +173,9 @@ export function BlackJackGame() {
   function EvaluateHand(Hand: string[]) {
     let value = 0;
     let ace = false;
+
     for (let i = 0; i < Hand.length; i++) {
       const element = Hand[i];
-
       let temp = element.split(":")[0];
 
       if (temp === "J" || temp === "Q" || temp === "K") {
@@ -190,14 +200,25 @@ export function BlackJackGame() {
   }
 
   const EndRound = useCallback(() => {
-    //show win screen
-    console.log(EvaluateHand(blackJackContext.dealer));
-    console.log(EvaluateHand(blackJackContext.player));
+    //dealer hits on
+    console.log(
+      "Dealer: ",
+      blackJackContext.dealer,
+      EvaluateHand(blackJackContext.dealer)
+    );
+    console.log(
+      "Player: ",
+      blackJackContext.player,
+      EvaluateHand(blackJackContext.player)
+    );
 
-    blackJackContext.setPlayer([]);
-    blackJackContext.setDealer([]);
+    if (blackJackContext.DeckKeys.length < 20) {
+      blackJackContext.setDeckKeys(Object.keys(Deck));
+    }
 
     blackJackContext.setGameTrigger(false);
+    blackJackContext.setPlayer([]);
+    blackJackContext.setDealer([]);
   }, [blackJackContext]);
 
   useEffect(() => {
@@ -213,77 +234,86 @@ export function BlackJackGame() {
       EndRound();
     }
   }, [EndRound, blackJackContext.player]);
+
   return (
     <>
       <div className="flex flex-row w-full">
+        <div id="border" className="flex flex-col w-64 h-32 p-2 gap-1">
+          <div
+            id="border"
+            className="flex h-3/6 w-full justify-start items-center p-1 gap-1"
+          >
+            {blackJackContext.player.map((card: string, index: number) => {
+              return (
+                <Image
+                  src={Deck[card]}
+                  height={40}
+                  width={32}
+                  alt="Playing Card"
+                  key={index}
+                />
+              );
+            })}
+            <div>{EvaluateHand(blackJackContext.player)}</div>
+          </div>
+          <div className="flex flex-row h-3/6 w-full  gap-2 text-center leading-8">
+            <div
+              id="border"
+              className="w-16 h-full hover:cursor-pointer"
+              onClick={() =>
+                Draw(
+                  blackJackContext.DeckKeys,
+                  blackJackContext.setDeckKeys,
+                  blackJackContext.player,
+                  blackJackContext.setPlayer
+                )
+              }
+            >
+              HIT
+            </div>
+            <div
+              id="border"
+              className="w-16 h-full hover:cursor-pointer"
+              onClick={EndRound}
+            >
+              STAND
+            </div>
+            <div
+              id="border"
+              className="flex w-32 h-full justify-evenly items-center "
+            >
+              {blackJackContext.dealer.map((card: string, index: number) => {
+                if (index === 0) {
+                  return (
+                    <Image
+                      src={Deck[card]}
+                      height={40}
+                      width={32}
+                      alt="Playing Card"
+                      key={index}
+                    />
+                  );
+                } else {
+                  return (
+                    <Image
+                      src={CardBack}
+                      height={40}
+                      width={32}
+                      alt="Playing Card"
+                      key={index}
+                    />
+                  );
+                }
+              })}
+              <div>{EvaluateHand(blackJackContext.dealer.slice(0, 1))}</div>
+            </div>
+          </div>
+        </div>
         <div
           className="h-32 w-32 hover:cursor-pointer text-white bg-black"
-          onClick={() => console.log(blackJackContext.Deck)}
+          onClick={() => console.log(blackJackContext.DeckKeys)}
         >
           show Deck
-        </div>
-        <div
-          className="h-32 w-32 hover:cursor-pointer text-white bg-red-500"
-          onClick={() => {
-            console.log("dealer", blackJackContext.dealer);
-            console.log("player", blackJackContext.player);
-          }}
-        >
-          {EvaluateHand(blackJackContext.dealer) + "\n"}
-          {EvaluateHand(blackJackContext.player)}
-        </div>
-
-        <div
-          className="h-32 w-32 hover:cursor-pointer text-white bg-green-500"
-          onClick={() =>
-            Draw(
-              blackJackContext.Deck,
-              blackJackContext.player,
-              blackJackContext.setPlayer
-            )
-          }
-        >
-          Draw Player
-        </div>
-
-        <div className="flex flex- justify-center items-center gap-4 text-white ">
-          <div
-            className="w-14 h-14 hover:cursor-pointer bg-black rounded-full text-center"
-            onClick={() =>
-              Draw(
-                blackJackContext.Deck,
-                blackJackContext.player,
-                blackJackContext.setPlayer
-              )
-            }
-          >
-            Hit
-          </div>
-          <div
-            className="w-14 h-14 hover:cursor-pointer bg-black rounded-full text-center"
-            //double stakes
-            onClick={() =>
-              Draw(
-                blackJackContext.Deck,
-                blackJackContext.player,
-                blackJackContext.setPlayer
-              )
-            }
-          >
-            Double
-          </div>
-          <div
-            className="w-14 h-14 hover:cursor-pointer bg-black rounded-full text-center"
-            onClick={EndRound}
-          >
-            Stand
-          </div>
-          <div
-            className="w-14 h-14 hover:cursor-pointer bg-black rounded-full text-center"
-            //onClick={Split}
-          >
-            Split
-          </div>
         </div>
       </div>
     </>
@@ -291,8 +321,12 @@ export function BlackJackGame() {
 }
 
 //update to take in state var of deck instead
-function Shuffle(Deck: string[]) {
-  let currentIndex = Deck.length;
+function Shuffle(
+  Deck: string[],
+  DeckSetter: React.Dispatch<SetStateAction<string[]>>
+) {
+  let newDeck = Deck;
+  let currentIndex = newDeck.length;
 
   // While there remain elements to shuffle...
   while (currentIndex != 0) {
@@ -301,19 +335,22 @@ function Shuffle(Deck: string[]) {
     currentIndex--;
 
     // And swap it with the current element.
-    [Deck[currentIndex], Deck[randomIndex]] = [
-      Deck[randomIndex],
-      Deck[currentIndex],
+    [newDeck[currentIndex], newDeck[randomIndex]] = [
+      newDeck[randomIndex],
+      newDeck[currentIndex],
     ];
   }
+  DeckSetter(newDeck);
 }
 function Draw(
   Deck: string[],
+  DeckSet: React.Dispatch<SetStateAction<string[]>>,
   Hand: string[],
   HandSet: React.Dispatch<SetStateAction<string[]>>
 ) {
-  //TODO if deck empty dont draw
-  let draw = Deck.splice(0, 1);
+  let newDeck = Deck;
+  let draw = newDeck.splice(0, 1);
   Hand.push(draw[0]);
   HandSet(Hand);
+  DeckSet(newDeck);
 }
