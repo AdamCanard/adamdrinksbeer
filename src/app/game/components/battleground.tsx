@@ -28,6 +28,7 @@ import Friend3 from "../../../../public/Friends Frames/FriendsFrame 3.png";
 
 import Image from "next/image";
 import { ICard, UpgradeType } from "./gametypes";
+import { BJEvaluateHand, Draw, Shuffle } from "./deckfunctions";
 
 export default function Battleground() {
   const gameContext = useContext(GameContext);
@@ -169,60 +170,58 @@ export function BlackJack() {
 
 export function BlackJackGame() {
   const blackJackContext = useContext(BlackJackContext);
-
-  function EvaluateHand(Hand: string[]) {
-    let value = 0;
-    let ace = false;
-
-    for (let i = 0; i < Hand.length; i++) {
-      const element = Hand[i];
-      let temp = element.split(":")[0];
-
-      if (temp === "J" || temp === "Q" || temp === "K") {
-        value += 10;
-      } else if (temp === "A") {
-        value += 1;
-        ace = true;
-      } else {
-        value += +temp;
-      }
-    }
-
-    if (ace) {
-      if (value + 10 > 21) {
-        return value + "";
-      } else {
-        return value + "/" + (value + 10);
-      }
-    } else {
-      return value + "";
-    }
-  }
+  const [reveal, setReveal] = useState<boolean>(false);
 
   const EndRound = useCallback(() => {
-    //dealer hits on
+    //dealer hits on 16 and soft 17
+    setReveal(true);
+    const dealerHit = () => {
+      const evaluatedHand = BJEvaluateHand(blackJackContext.dealer);
+      if (evaluatedHand.includes("/")) {
+        const soft = +evaluatedHand.split("/")[1];
+        if (soft <= 17) {
+          return true;
+        }
+      } else {
+        if (+evaluatedHand <= 16) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    while (dealerHit()) {
+      Draw(
+        blackJackContext.DeckKeys,
+        blackJackContext.setDeckKeys,
+        blackJackContext.dealer,
+        blackJackContext.setDealer
+      );
+    }
+
     console.log(
       "Dealer: ",
       blackJackContext.dealer,
-      EvaluateHand(blackJackContext.dealer)
+      BJEvaluateHand(blackJackContext.dealer)
     );
     console.log(
       "Player: ",
       blackJackContext.player,
-      EvaluateHand(blackJackContext.player)
+      BJEvaluateHand(blackJackContext.player)
     );
 
-    if (blackJackContext.DeckKeys.length < 20) {
-      blackJackContext.setDeckKeys(Object.keys(Deck));
-    }
+    // if (blackJackContext.dealer)
+    //   if (blackJackContext.DeckKeys.length < 20) {
+    //     blackJackContext.setDeckKeys(Object.keys(Deck));
+    //   }
 
-    blackJackContext.setGameTrigger(false);
-    blackJackContext.setPlayer([]);
-    blackJackContext.setDealer([]);
+    // blackJackContext.setGameTrigger(false);
+    // blackJackContext.setPlayer([]);
+    // blackJackContext.setDealer([]);
   }, [blackJackContext]);
 
   useEffect(() => {
-    let evaluatedHand = EvaluateHand(blackJackContext.player);
+    let evaluatedHand = BJEvaluateHand(blackJackContext.player);
     let handvalue;
 
     if (evaluatedHand.includes("/")) {
@@ -254,7 +253,7 @@ export function BlackJackGame() {
                 />
               );
             })}
-            <div>{EvaluateHand(blackJackContext.player)}</div>
+            <div>{BJEvaluateHand(blackJackContext.player)}</div>
           </div>
           <div className="flex flex-row h-3/6 w-full  gap-2 text-center leading-8">
             <div
@@ -283,17 +282,7 @@ export function BlackJackGame() {
               className="flex w-32 h-full justify-evenly items-center "
             >
               {blackJackContext.dealer.map((card: string, index: number) => {
-                if (index === 0) {
-                  return (
-                    <Image
-                      src={Deck[card]}
-                      height={40}
-                      width={32}
-                      alt="Playing Card"
-                      key={index}
-                    />
-                  );
-                } else {
+                if (index === 0 && !reveal) {
                   return (
                     <Image
                       src={CardBack}
@@ -303,9 +292,23 @@ export function BlackJackGame() {
                       key={index}
                     />
                   );
+                } else {
+                  return (
+                    <Image
+                      src={Deck[card]}
+                      height={40}
+                      width={32}
+                      alt="Playing Card"
+                      key={index}
+                    />
+                  );
                 }
               })}
-              <div>{EvaluateHand(blackJackContext.dealer.slice(0, 1))}</div>
+              <div>
+                {reveal
+                  ? BJEvaluateHand(blackJackContext.dealer)
+                  : BJEvaluateHand(blackJackContext.dealer.slice(0, 1))}
+              </div>
             </div>
           </div>
         </div>
@@ -318,39 +321,4 @@ export function BlackJackGame() {
       </div>
     </>
   );
-}
-
-//update to take in state var of deck instead
-function Shuffle(
-  Deck: string[],
-  DeckSetter: React.Dispatch<SetStateAction<string[]>>
-) {
-  let newDeck = Deck;
-  let currentIndex = newDeck.length;
-
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [newDeck[currentIndex], newDeck[randomIndex]] = [
-      newDeck[randomIndex],
-      newDeck[currentIndex],
-    ];
-  }
-  DeckSetter(newDeck);
-}
-function Draw(
-  Deck: string[],
-  DeckSet: React.Dispatch<SetStateAction<string[]>>,
-  Hand: string[],
-  HandSet: React.Dispatch<SetStateAction<string[]>>
-) {
-  let newDeck = Deck;
-  let draw = newDeck.splice(0, 1);
-  Hand.push(draw[0]);
-  HandSet(Hand);
-  DeckSet(newDeck);
 }
