@@ -77,7 +77,7 @@ export function reducer(state: Istate, action: Action) {
     case "WIN":
       if (action.win) {
         return {
-          sips: state.sips + action.win,
+          sips: state.sips + +action.win,
           sipsTaken: state.sipsTaken,
           drunkness: state.drunkness,
           totalSips: state.totalSips,

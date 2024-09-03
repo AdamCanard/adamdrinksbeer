@@ -130,6 +130,7 @@ export function BlackJackGame(props: { wager: number }) {
   const blackJackContext = useContext(BlackJackContext);
   const gameContext = useContext(GameContext);
   const [reveal, setReveal] = useState<boolean>(false);
+  const [winner, setWinner] = useState<string>("");
 
   const EndRound = useCallback(() => {
     //dealer hits on 16 and soft 17
@@ -179,31 +180,21 @@ export function BlackJackGame(props: { wager: number }) {
       dealervalue = +dealerEvaluatedHand;
     }
 
-    //dealer 25
-    //player 20
-
     //WIN
     if (playervalue <= 21 && (playervalue > dealervalue || dealervalue > 21)) {
-      console.log("win");
       gameContext.dispatch({ type: "WIN", win: props.wager * 2 });
+      setWinner("Player");
     } else if (
       //PUSH
       playervalue === dealervalue ||
       (playervalue > 21 && dealervalue > 21)
     ) {
-      console.log("push");
       gameContext.dispatch({ type: "WIN", win: props.wager });
+      setWinner("Nobody");
     } else {
-      console.log("loss");
+      setWinner("Dealer");
       //womp womp
     }
-
-    console.log("Dealer: ", dealervalue);
-    console.log("Player: ", playervalue);
-
-    blackJackContext.setGameTrigger(false);
-    blackJackContext.setPlayer([]);
-    blackJackContext.setDealer([]);
   }, [blackJackContext, gameContext, props.wager]);
 
   useEffect(() => {
@@ -220,15 +211,105 @@ export function BlackJackGame(props: { wager: number }) {
     }
   }, [EndRound, blackJackContext.player]);
 
+  const reset = () => {
+    blackJackContext.setPlayer([]);
+    blackJackContext.setDealer([]);
+    blackJackContext.setGameTrigger(false);
+  };
+
   return (
     <>
-      <div className="flex flex-row w-full">
-        <div id="border" className="flex flex-col w-64 h-32 p-2 gap-1">
-          <div
-            id="border"
-            className="flex h-3/6 w-full justify-start items-center p-1 gap-1"
-          >
-            {blackJackContext.player.map((card: string, index: number) => {
+      <div className="flex flex-row w-full col-span-2 row-span-1">
+        <div
+          id="border"
+          className="flex flex-col w-64 h-32 p-2 items-center justify-center"
+        >
+          {reveal ? (
+            <div className="flex flex-row w-full justify-between items-center">
+              <div className="flex flex-col ">
+                <CardRow hand={blackJackContext.player} cover={false} />
+                <CardRow hand={blackJackContext.dealer} cover={false} />
+              </div>
+              <div className="flex flex-col justify-end items-center text-center gap-2">
+                <div>{winner + " \nWINS!"}</div>
+                <Button title="END" func={() => reset()} />
+              </div>
+            </div>
+          ) : (
+            <>
+              <CardRow hand={blackJackContext.player} cover={false} />
+              <div className="flex flex-row h-full w-full gap-2 items-center text-center">
+                <Button
+                  title="HIT"
+                  func={() =>
+                    Draw(
+                      blackJackContext.DeckKeys,
+                      blackJackContext.setDeckKeys,
+                      blackJackContext.player,
+                      blackJackContext.setPlayer
+                    )
+                  }
+                />
+                <Button title="STAND" func={() => EndRound()} />
+
+                <CardRow hand={blackJackContext.dealer} cover={true} />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function Button(props: { title: string; func: () => void }) {
+  return (
+    <div
+      id="border"
+      className="w-16 h-10 hover:cursor-pointer text-center leading-5"
+      onClick={props.func}
+    >
+      {props.title}
+    </div>
+  );
+}
+
+export function CardRow(props: { hand: string[]; cover: boolean }) {
+  return (
+    <div
+      id="border-s"
+      className="flex h-full w-full justify-between items-center p-1 gap-1"
+    >
+      <div className="flex justify-start">
+        {props.cover ? (
+          <>
+            {props.hand.map((card: string, index: number) => {
+              if (index === 0) {
+                return (
+                  <Image
+                    src={CardBack}
+                    height={40}
+                    width={32}
+                    alt="Playing Card"
+                    key={index}
+                  />
+                );
+              } else {
+                return (
+                  <Image
+                    src={Deck[card]}
+                    height={40}
+                    width={32}
+                    alt="Playing Card"
+                    key={index}
+                  />
+                );
+              }
+            })}
+          </>
+        ) : (
+          <>
+            {props.hand.map((card: string, index: number) => {
               return (
                 <Image
                   src={Deck[card]}
@@ -239,72 +320,18 @@ export function BlackJackGame(props: { wager: number }) {
                 />
               );
             })}
-            <div>{BJEvaluateHand(blackJackContext.player)}</div>
-          </div>
-          <div className="flex flex-row h-3/6 w-full  gap-2 text-center leading-8">
-            <div
-              id="border"
-              className="w-16 h-full hover:cursor-pointer"
-              onClick={() =>
-                Draw(
-                  blackJackContext.DeckKeys,
-                  blackJackContext.setDeckKeys,
-                  blackJackContext.player,
-                  blackJackContext.setPlayer
-                )
-              }
-            >
-              HIT
-            </div>
-            <div
-              id="border"
-              className="w-16 h-full hover:cursor-pointer"
-              onClick={EndRound}
-            >
-              STAND
-            </div>
-            <div
-              id="border"
-              className="flex w-32 h-full justify-evenly items-center "
-            >
-              {blackJackContext.dealer.map((card: string, index: number) => {
-                if (index === 0 && !reveal) {
-                  return (
-                    <Image
-                      src={CardBack}
-                      height={40}
-                      width={32}
-                      alt="Playing Card"
-                      key={index}
-                    />
-                  );
-                } else {
-                  return (
-                    <Image
-                      src={Deck[card]}
-                      height={40}
-                      width={32}
-                      alt="Playing Card"
-                      key={index}
-                    />
-                  );
-                }
-              })}
-              <div>
-                {reveal
-                  ? BJEvaluateHand(blackJackContext.dealer)
-                  : BJEvaluateHand(blackJackContext.dealer.slice(0, 1))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="h-32 w-32 hover:cursor-pointer text-white bg-black"
-          onClick={() => console.log(blackJackContext.DeckKeys)}
-        >
-          show Deck
-        </div>
+          </>
+        )}
       </div>
-    </>
+      {props.cover ? (
+        <div id="border-s" className="h-10 w-8 text-center leading-7">
+          {BJEvaluateHand(props.hand.slice(1))}
+        </div>
+      ) : (
+        <div id="border-s" className="h-10 w-8 text-center leading-7">
+          {BJEvaluateHand(props.hand)}
+        </div>
+      )}
+    </div>
   );
 }

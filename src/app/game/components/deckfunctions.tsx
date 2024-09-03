@@ -62,3 +62,32 @@ export function BJEvaluateHand(Hand: string[]) {
     return value + "";
   }
 }
+
+export function BJFinalHand(Hand: string[]) {
+  let value = 0;
+  let ace = false;
+
+  for (let i = 0; i < Hand.length; i++) {
+    const element = Hand[i];
+    let temp = element.split(":")[0];
+
+    if (temp === "J" || temp === "Q" || temp === "K") {
+      value += 10;
+    } else if (temp === "A") {
+      value += 1;
+      ace = true;
+    } else {
+      value += +temp;
+    }
+  }
+
+  if (ace) {
+    if (value + 10 > 21) {
+      return value + "";
+    } else {
+      return value + 10;
+    }
+  } else {
+    return value + "";
+  }
+}
