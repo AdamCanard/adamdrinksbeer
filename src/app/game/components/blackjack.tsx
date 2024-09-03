@@ -44,6 +44,7 @@ export function BlackJack() {
     game: "blackjack",
     wager: 10,
   });
+
   function StartRound() {
     Shuffle(DeckKeys, setDeckKeys);
     Draw(DeckKeys, setDeckKeys, dealer, setDealer);
@@ -52,6 +53,7 @@ export function BlackJack() {
     Draw(DeckKeys, setDeckKeys, player, setPlayer);
     setGameTrigger(true);
   }
+
   const handleClick = () => {
     if (inputs.wager >= 10) {
       if (gameContext.state.sips >= inputs.wager) {
@@ -60,6 +62,7 @@ export function BlackJack() {
       }
     }
   };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({
@@ -67,6 +70,7 @@ export function BlackJack() {
       [name]: value,
     });
   };
+
   return (
     <>
       {!gameTrigger ? (
@@ -94,7 +98,11 @@ export function BlackJack() {
               />
             </label>
 
-            <button className="hover:cursor-pointer" onClick={handleClick}>
+            <button
+              id="border"
+              className="hover:cursor-pointer"
+              onClick={handleClick}
+            >
               Start Game
             </button>
           </div>
@@ -111,15 +119,16 @@ export function BlackJack() {
             setGameTrigger,
           }}
         >
-          <BlackJackGame />
+          <BlackJackGame wager={inputs.wager} />
         </BlackJackContext.Provider>
       )}
     </>
   );
 }
 
-export function BlackJackGame() {
+export function BlackJackGame(props: { wager: number }) {
   const blackJackContext = useContext(BlackJackContext);
+  const gameContext = useContext(GameContext);
   const [reveal, setReveal] = useState<boolean>(false);
 
   const EndRound = useCallback(() => {
@@ -149,25 +158,53 @@ export function BlackJackGame() {
       );
     }
 
-    console.log(
-      "Dealer: ",
-      blackJackContext.dealer,
-      BJEvaluateHand(blackJackContext.dealer)
-    );
-    console.log(
-      "Player: ",
-      blackJackContext.player,
-      BJEvaluateHand(blackJackContext.player)
-    );
-
     if (blackJackContext.DeckKeys.length < 20) {
       blackJackContext.setDeckKeys(Object.keys(Deck));
     }
 
+    let playerEvaluatedHand = BJEvaluateHand(blackJackContext.player);
+    let playervalue;
+    let dealerEvaluatedHand = BJEvaluateHand(blackJackContext.dealer);
+    let dealervalue;
+
+    if (playerEvaluatedHand.includes("/")) {
+      playervalue = +playerEvaluatedHand.split("/")[1];
+    } else {
+      playervalue = +playerEvaluatedHand;
+    }
+
+    if (dealerEvaluatedHand.includes("/")) {
+      dealervalue = +dealerEvaluatedHand.split("/")[1];
+    } else {
+      dealervalue = +dealerEvaluatedHand;
+    }
+
+    //dealer 25
+    //player 20
+
+    //WIN
+    if (playervalue <= 21 && (playervalue > dealervalue || dealervalue > 21)) {
+      console.log("win");
+      gameContext.dispatch({ type: "WIN", win: props.wager * 2 });
+    } else if (
+      //PUSH
+      playervalue === dealervalue ||
+      (playervalue > 21 && dealervalue > 21)
+    ) {
+      console.log("push");
+      gameContext.dispatch({ type: "WIN", win: props.wager });
+    } else {
+      console.log("loss");
+      //womp womp
+    }
+
+    console.log("Dealer: ", dealervalue);
+    console.log("Player: ", playervalue);
+
     blackJackContext.setGameTrigger(false);
     blackJackContext.setPlayer([]);
     blackJackContext.setDealer([]);
-  }, [blackJackContext]);
+  }, [blackJackContext, gameContext, props.wager]);
 
   useEffect(() => {
     let evaluatedHand = BJEvaluateHand(blackJackContext.player);
