@@ -61,6 +61,32 @@ export function reducer(state: Istate, action: Action) {
           beer: state.beer,
         };
       }
+    case "WAGER":
+      if (action.wager) {
+        return {
+          sips: state.sips - action.wager,
+          sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
+          totalSips: state.totalSips,
+          tipsoLevel: state.tipsoLevel,
+          sps: state.sps,
+          sipPower: state.sipPower,
+          beer: state.beer,
+        };
+      }
+    case "WIN":
+      if (action.win) {
+        return {
+          sips: state.sips + action.win,
+          sipsTaken: state.sipsTaken,
+          drunkness: state.drunkness,
+          totalSips: state.totalSips,
+          tipsoLevel: state.tipsoLevel,
+          sps: state.sps,
+          sipPower: state.sipPower,
+          beer: state.beer,
+        };
+      }
     //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
     case "LOOP":
       let tipsoReduce;

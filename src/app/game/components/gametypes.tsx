@@ -5,6 +5,8 @@ export interface Action {
   sps?: number;
   buy?: number;
   power?: number;
+  wager?: number;
+  win?: number;
 }
 
 export enum Intoxication {
