@@ -76,6 +76,7 @@ export function reducer(state: Istate, action: Action) {
       }
     case "WIN":
       if (action.win) {
+        console.log(action);
         return {
           sips: state.sips + +action.win,
           sipsTaken: state.sipsTaken,

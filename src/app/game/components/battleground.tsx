@@ -12,9 +12,11 @@ import Quantum8 from "../../../../public/QuantumFrames/QuantumFrame 8.png";
 import Quantum9 from "../../../../public/QuantumFrames/QuantumFrame 9.png";
 import Quantum10 from "../../../../public/QuantumFrames/QuantumFrame 10.png";
 
-import Friend1 from "../../../../public/Friends Frames/FriendsFrame 1.png";
-import Friend2 from "../../../../public/Friends Frames/FriendsFrame 2.png";
-import Friend3 from "../../../../public/Friends Frames/FriendsFrame 3.png";
+import Friend1 from "../../../../public/Friends Frames/FriendFrame 1.png";
+import Friend2 from "../../../../public/Friends Frames/FriendFrame 2.png";
+import Friend3 from "../../../../public/Friends Frames/FriendFrame 3.png";
+import Friend4 from "../../../../public/Friends Frames/FriendFrame 4.png";
+import Friend5 from "../../../../public/Friends Frames/FriendFrame 5.png";
 
 import Image from "next/image";
 import { UpgradeType } from "./gametypes";
@@ -29,11 +31,10 @@ export default function Battleground() {
       id="border"
       className="grid grid-flow-row-dense grid-cols-5 grid-rows-5 w-1/2 h-full bg-[#bababa] "
     >
-      <BlackJack />
-      {/* {Object.keys(gameContext.upgradeList).map((key, index) => {
+      {Object.keys(gameContext.upgradeList).map((key, index) => {
         if (gameContext.upgradeList[key].Amount >= 1)
           return GameList(key, index, gameContext.upgradeList[key]);
-      })} */}
+      })}
     </div>
   );
 }
@@ -81,21 +82,29 @@ export function QuantumSip(props: { upgrade: UpgradeType }) {
   );
 }
 
-const FriendFrames = [Friend1, Friend2, Friend3];
+const FriendFrames = [Friend1, Friend2, Friend3, Friend4, Friend5];
 
 export function Friend(props: { upgrade: UpgradeType }) {
+  const gameContext = useContext(GameContext);
   let FriendFrame = props.upgrade.Amount;
-  if (FriendFrame >= 4) {
-    FriendFrame = 3;
+  if (FriendFrame >= 5) {
+    FriendFrame = 5;
   }
+  let blackjackUnlock = gameContext.unlockList["Blackjack"].Bought;
 
   return (
-    <Image
-      src={FriendFrames[FriendFrame - 1]}
-      width={256}
-      height={128}
-      alt="battleground Image"
-      className="col-span-2 row-span-1"
-    />
+    <>
+      {blackjackUnlock ? (
+        <BlackJack />
+      ) : (
+        <Image
+          src={FriendFrames[FriendFrame - 1]}
+          width={256}
+          height={128}
+          alt="battleground Image"
+          className="col-span-2 row-span-1"
+        />
+      )}
+    </>
   );
 }

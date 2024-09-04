@@ -195,6 +195,13 @@ export const UnlockOBJ: IUnlock = {
     Bought: false,
     Bonus: { key: "unlock", operator: "Tipso Meter", value: 0 },
   },
+  Blackjack: {
+    Desc: "Your friends are tired of sitting around drinking, they wont invite any more friends until you give them something to do",
+    Cost: 200,
+    Condition: { Friend: 5 },
+    Bought: false,
+    Bonus: { key: "unlock", operator: "Blackjack", value: 0 },
+  },
 
   //Sip Unlocks
   "Bigger Sips": {

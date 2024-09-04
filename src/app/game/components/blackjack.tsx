@@ -63,6 +63,18 @@ export function BlackJack() {
     }
   };
 
+  //round wages when they enter inputs
+  const allIn = () => {
+    if (gameContext.state.sips >= 10) {
+      gameContext.dispatch({ type: "WAGER", wager: gameContext.state.sips });
+      setInputs({
+        ...inputs,
+        wager: Math.round(gameContext.state.sips),
+      });
+      StartRound();
+    }
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({
@@ -77,7 +89,7 @@ export function BlackJack() {
         <>
           <div
             id="border"
-            className="h-32 w-64 flex flex-col justify-start items-center p-2 gap-2"
+            className="h-full w-full col-span-2 row-span-1 flex flex-col justify-start items-center p-2 gap-2"
           >
             <label className="flex justify-between gap-1">
               Game:
@@ -97,14 +109,22 @@ export function BlackJack() {
                 onChange={(e) => handleChange(e)}
               />
             </label>
-
-            <button
-              id="border"
-              className="hover:cursor-pointer"
-              onClick={handleClick}
-            >
-              Start Game
-            </button>
+            <div className="flex flex-row gap-2">
+              <button
+                id="border"
+                className="hover:cursor-pointer"
+                onClick={handleClick}
+              >
+                Start Game
+              </button>
+              <button
+                id="border"
+                className="hover:cursor-pointer"
+                onClick={allIn}
+              >
+                ALL-IN
+              </button>
+            </div>
           </div>
         </>
       ) : (
