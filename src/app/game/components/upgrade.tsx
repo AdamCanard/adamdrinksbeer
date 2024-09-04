@@ -42,35 +42,39 @@ export default function Upgrade(props: {
   };
 
   return (
-    <div id="border" className="flex flex-row w-full h-18 items-center">
+    <div
+      id="border-s"
+      className="grid w-full h-16 grid-cols-5 grid-rows-1 justify-center items-center text-center"
+    >
       <Image
-        src={
-          props.upgrade.Logos[Math.floor(props.upgrade.Amount / 10)] ||
-          props.upgrade.Logos[props.upgrade.Logos.length - 1]
-        }
+        src={props.upgrade.Icon}
         width={64}
         height={64}
         alt="battleground Image"
         onClick={cheat}
+        className="col-span-1 w-full "
       />
 
-      <div className="w-32">{props.title}</div>
-      <div className="w-8">{props.upgrade.Amount}</div>
+      <div className="col-span-2 w-full ">{props.title}</div>
+      <div className="col-span-1 w-full">{props.upgrade.Amount}</div>
       {/* disables onClick if you cant afford */}
-      {buy ? (
-        <button
-          className="w-16 h-16 bg-[url('../../public/CanBuyBackground.png')] hover:cursor-pointer"
-          onClick={handleClick}
-        >
-          {cost}
-          {" sips"}
-        </button>
-      ) : (
-        <button className="w-16 h-16 bg-[url('../../public/CantBuyBackground.png')] hover:cursor-default">
-          {cost}
-          {" sips"}
-        </button>
-      )}
+      <div id="border-np" className="col-span-1 h-full leading-5 ">
+        {buy ? (
+          <button
+            id="border-g"
+            className="hover:cursor-pointer w-full h-full"
+            onClick={handleClick}
+          >
+            {cost}
+            {" sips"}
+          </button>
+        ) : (
+          <button id="border-r" className="hover:cursor-default w-full h-full">
+            {cost}
+            {" sips"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

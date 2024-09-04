@@ -29,12 +29,32 @@
   border-bottom: 4px solid #969696;
   padding: 4px;
 }
+#border-np {
+  border-left: 4px solid #969696;
+  border-top: 4px solid #c8c8c8;
+  border-right: 4px solid #c8c8c8;
+  border-bottom: 4px solid #969696;
+}
 #border-s {
   border-left: 2px solid #969696;
   border-top: 2px solid #c8c8c8;
   border-right: 2px solid #c8c8c8;
   border-bottom: 2px solid #969696;
   padding: 2px;
+}
+
+#border-g {
+  border-left: 2px solid #50aa1e;
+  border-top: 2px solid #64be32;
+  border-right: 2px solid #50aa1e;
+  border-bottom: 2px solid #64be32;
+}
+
+#border-r {
+  border-left: 2px solid #961e1e;
+  border-top: 2px solid #aa3232;
+  border-right: 2px solid #aa3232;
+  border-bottom: 2px solid #961e1e;
 }
 
 div {

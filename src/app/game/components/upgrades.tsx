@@ -7,7 +7,7 @@ export default function Upgrades() {
   const gameContext = useContext(GameContext);
   //Converts upgrade list to Upgrade components
   return (
-    <div className="flex flex-col w-full h-2/3 gap-2">
+    <div id="border-s" className="flex flex-col w-full h-2/3 gap-1">
       {Object.keys(gameContext.upgradeList).map((key, index) => {
         return (
           <Upgrade

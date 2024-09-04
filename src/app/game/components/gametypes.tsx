@@ -38,7 +38,7 @@ export interface UpgradeType {
   Amount: number;
   initCost: number;
   SPS: number;
-  Logos: StaticImageData[];
+  Icon: StaticImageData;
 }
 
 export interface IUnlock {

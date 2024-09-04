@@ -69,7 +69,9 @@ import QuantumLogo6 from "../../../../public/QuantumLogoFrames/QuantumLogo6.png"
 import QuantumLogo7 from "../../../../public/QuantumLogoFrames/QuantumLogo7.png";
 import QuantumLogo8 from "../../../../public/QuantumLogoFrames/QuantumLogo8.png";
 
-const Empty: StaticImageData[] = [];
+import FriendIcon from "../../../../public/Icons/FriendIcon.png";
+
+const Empty: StaticImageData = FriendIcon;
 
 const QuantumLogoFrames: StaticImageData[] = [
   QuantumLogo1,
@@ -154,7 +156,7 @@ export const UpgradeOBJ: IUpgrade = {
     Amount: 0,
     initCost: 10,
     SPS: 0.1,
-    Logos: QuantumLogoFrames,
+    Icon: QuantumLogo1,
   },
   //Every Friend you buy invites a friend over to your house who will help you drink beers
 
@@ -162,27 +164,27 @@ export const UpgradeOBJ: IUpgrade = {
   // Better Friends x2
   // Best Friends x2
   // Outsourced Friends x2
-  Friend: { Amount: 0, initCost: 100, SPS: 1, Logos: Empty },
+  Friend: { Amount: 0, initCost: 100, SPS: 1, Icon: FriendIcon },
   //Each Drill creates a whole in the can that beer slowly leaks out of
 
   // Unlocks:
   // Bigger Bits x2
   // More Torque x2
   // Tougher Hands x2
-  Drill: { Amount: 0, initCost: 1000, SPS: 7.5, Logos: Empty },
+  Drill: { Amount: 0, initCost: 1000, SPS: 7.5, Icon: Empty },
   //With new age technology sips can be aquired through printing! Although the market is heavily controlled
 
   // Unlocks:
   // Sips in Colour x2
   // Bootleg Ink x2
   // Counterfit Sips x2
-  "Sip Printer": { Amount: 0, initCost: 11000, SPS: 12, Logos: Empty },
+  "Sip Printer": { Amount: 0, initCost: 11000, SPS: 12, Icon: Empty },
 
   // Unlocks:
   // Sip Fertalizer x2
   // Hydroponic Sips x2
   // Import Sip Seeds x2
-  "Sip Farm ": { Amount: 0, initCost: 120000, SPS: 25, Logos: Empty },
+  "Sip Farm ": { Amount: 0, initCost: 120000, SPS: 25, Icon: Empty },
 };
 
 //find a way to organize unlocks (probably cost)

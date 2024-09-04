@@ -33,19 +33,20 @@ export function Unlock(props: {
   }, [gameContext.state.sips, props.unlock.Cost]);
 
   return (
-    <>
+    <div id="border-np" className="w-12 h-12">
       {buy ? (
         <div
-          className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer"
+          id="border-g"
+          className="w-full h-full hover:cursor-pointer"
           onClick={handleClick}
         >
           {props.unlock.Cost}
         </div>
       ) : (
-        <div className="w-11 h-11 bg-white border-2 border-black hover:cursor-pointer opacity-50">
+        <div id="border-r" className="w-full h-full hover:cursor-default ">
           {props.unlock.Cost}
         </div>
       )}
-    </>
+    </div>
   );
 }

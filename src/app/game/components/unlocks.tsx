@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { GameContext, GameContextType } from "./game";
-import { IBonus, UnlockType } from "./gametypes";
+import { useContext } from "react";
+import { GameContext } from "./game";
+
 import { Unlock } from "./unlock";
 
 export default function Unlocks() {
   const gameContext = useContext(GameContext);
   //not fully implemented
   return (
-    <div className="flex flex-row flex-wrap w-full h-1/3 content-start">
+    <div
+      id="border-s"
+      className="grid grid-cols-6 grid-rows-4 grid-flow-row-dense w-full h-1/3 justify-center items-center"
+    >
       {Object.keys(gameContext.unlockList).map((key, index) => {
         //for every unlock in unlock list
 

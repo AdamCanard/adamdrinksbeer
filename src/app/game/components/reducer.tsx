@@ -1,4 +1,4 @@
-import { Action, Istate } from "./gametypes";
+import { Action, Intoxication, Istate } from "./gametypes";
 
 //define reducer for game mechanics
 export function reducer(state: Istate, action: Action) {
@@ -91,20 +91,33 @@ export function reducer(state: Istate, action: Action) {
     //run by useEffect connected to game loop, adds SPS to total sips and updates SPS counter
     case "LOOP":
       let tipsoReduce;
-
+      let tipsoMult;
       if (state.tipsoLevel - 3 < 0) {
         tipsoReduce = state.tipsoLevel;
       } else {
         tipsoReduce = 3;
       }
+
+      switch (state.drunkness) {
+        case Intoxication.sober:
+          tipsoMult = 1;
+          break;
+        case Intoxication.tipsy:
+          tipsoMult = 1.3;
+          break;
+        case Intoxication.drunk:
+          tipsoMult = 1.1;
+          break;
+      }
+
       if (action.sps) {
         return {
-          sips: state.sips + action.sps,
+          sips: state.sips + action.sps * tipsoMult,
           sipsTaken: state.sipsTaken,
           drunkness: state.drunkness,
           totalSips: state.totalSips + action.sps,
           tipsoLevel: state.tipsoLevel - tipsoReduce,
-          sps: action.sps,
+          sps: action.sps * tipsoMult,
           sipPower: state.sipPower,
           beer: state.beer,
         };
